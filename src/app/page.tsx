@@ -14,6 +14,7 @@ import { Suspense, useRef, ReactNode, useMemo, useEffect, useState } from "react
 import type { NextPage } from "next";
 import dynamic from 'next/dynamic';
 
+
 // Error boundary component
 const ErrorBoundary = ({ children }: { children: ReactNode }) => {
   return (
@@ -72,40 +73,134 @@ function Loader() {
 }
 
 // Recenter Button Component
-function RecenterButton() {
-  const { camera } = useThree();
-
+function RecenterButton({ camera }: { camera: THREE.Camera }) {
   const recenterCamera = () => {
     camera.position.set(0, 10, 20); // Reset camera position
     camera.lookAt(0, 0, 0);
   };
 
   return (
-    <Html position={[0, 0, 0]}>
-      <div
-        className="fixed bottom-4 left-4 z-50"
+    <div
+      className="fixed bottom-4 left-4 z-50"
+      style={{
+        position: "fixed",
+        bottom: "20px",
+        left: "20px",
+        zIndex: 1000,
+      }}
+    >
+      <button
+        onClick={recenterCamera}
+        className="w-12 h-12 bg-gray-800 text-white rounded-full flex items-center justify-center shadow-lg hover:bg-gray-700"
         style={{
-          position: "fixed",
-          bottom: "20px",
-          left: "20px",
-          zIndex: 1000, // Ensure it's above the canvas
+          border: "none",
+          cursor: "pointer",
+          fontSize: "20px",
         }}
       >
-        <button
-          onClick={recenterCamera}
-          className="w-12 h-12 bg-gray-800 text-white rounded-full flex items-center justify-center shadow-lg hover:bg-gray-700"
+        ⟳
+      </button>
+    </div>
+  );
+}
+
+// Info Button Component
+function InfoButton() {
+  const [showMenu, setShowMenu] = useState(false);
+
+  return (
+    <div
+      className="fixed bottom-4 left-20 z-50"
+      style={{
+        position: "fixed",
+        bottom: "20px",
+        left: "80px",
+        zIndex: 1000,
+      }}
+    >
+      <button
+        onClick={() => setShowMenu(!showMenu)}
+        className="w-8 h-8 bg-gray-800 text-white rounded-full flex items-center justify-center shadow-lg hover:bg-gray-700"
+        style={{
+          border: "2px solid #007bff",
+          cursor: "pointer",
+          fontSize: "16px",
+          fontStyle: "italic",
+          boxShadow: "0 0 15px rgba(0, 123, 255, 0.7)",
+          outline: "none",
+          padding: "0",
+          width: "32px",
+          height: "32px",
+          borderRadius: "100%",
+          overflow: "hidden",
+        }}
+      >
+        i
+      </button>
+
+      {showMenu && (
+        <div
+          className="fixed bottom-16 left-20 bg-black bg-opacity-70 text-white p-4 rounded-lg shadow-lg"
           style={{
-            border: "none",
-            cursor: "pointer",
-            fontSize: "20px",
+            width: "300px",
+            maxHeight: "200px",
+            overflowY: "auto",
+            backdropFilter: "blur(5px)",
           }}
         >
-          ⟳
-        </button>
+          <button
+            onClick={() => setShowMenu(false)}
+            className="absolute top-2 right-2 text-white hover:text-gray-300"
+            style={{
+              background: "none",
+              border: "none",
+              cursor: "pointer",
+              fontSize: "20px",
+              padding: "4px",
+            }}
+          >
+            ×
+          </button>
+          <div className="mt-4">
+            <h3 className="text-lg font-bold mb-2">Welcome to My Solar System Portfolio!</h3>
+            <p className="text-sm">
+              This interactive 3D solar system showcases my portfolio. Each planet represents different aspects of my work:
+            </p>
+            <ul className="text-sm mt-2 list-disc list-inside">
+              <li>Mars - LinkedIn Profile</li>
+              <li>Jupiter - Resume</li>
+              <li>Saturn - GitHub Profile</li>
+            </ul>
+            <p className="text-sm mt-2">
+              Click on the planets to explore more about me!
+            </p>
+          </div>
+        </div>
+      )}
+    </div>
+  );
+}
+
+// Floating Label Component
+const FloatingLabel: React.FC<{ text: string; position: [number, number, number] }> = ({ text, position }) => {
+  return (
+    <Html position={position} center>
+      <div style={{
+        background: 'rgba(0, 0, 0, 0.7)',
+        padding: '4px 8px',
+        borderRadius: '4px',
+        color: 'white',
+        fontSize: '14px',
+        fontFamily: 'Arial, sans-serif',
+        whiteSpace: 'nowrap',
+        pointerEvents: 'none'
+      }}>
+        {text}
       </div>
     </Html>
   );
-}
+};
+
 // Rotating Planet Component
 interface RotatingPlanetProps {
   children: ReactNode;
@@ -113,6 +208,7 @@ interface RotatingPlanetProps {
   revolutionSpeed: number;
   orbitDistance: number;
   Linkforopen?: string;
+  planetName: string;
 }
 
 const RotatingPlanet: React.FC<RotatingPlanetProps> = ({
@@ -121,28 +217,43 @@ const RotatingPlanet: React.FC<RotatingPlanetProps> = ({
   revolutionSpeed,
   orbitDistance,
   Linkforopen,
+  planetName,
 }) => {
   const [hovered, setHovered] = useState(false);
   const revolutionRef = useRef<THREE.Group>(null);
   const rotationRef = useRef<THREE.Group>(null);
+  const meshRef = useRef<THREE.Mesh>(null);
+
+  useFrame((state, delta) => {
+    if (rotationRef.current) rotationRef.current.rotation.y += rotationSpeed * delta;
+    if (revolutionRef.current) revolutionRef.current.rotation.y += revolutionSpeed * delta;
+    
+    // Smooth scale animation
+    if (meshRef.current) {
+      const targetScale = hovered ? 1.3 : 1;
+      meshRef.current.scale.lerp(new THREE.Vector3(targetScale, targetScale, targetScale), 0.1);
+    }
+  });
+
   const linkopen = () => {
     if (Linkforopen) {
       window.open(Linkforopen, "_blank");
     }
   }
 
-  useFrame((state, delta) => {
-    if (rotationRef.current) rotationRef.current.rotation.y += rotationSpeed * delta;
-    if (revolutionRef.current) revolutionRef.current.rotation.y += revolutionSpeed * delta;
-  });
-
   return (
     <group ref={revolutionRef}>
       <Orbit radius={orbitDistance} />
       <group ref={rotationRef} position={[orbitDistance, 0, 0]}>
-        <mesh scale={hovered ? 1.5 : 1} onPointerOver={() => setHovered(true)} onPointerOut={() => setHovered(false) } onClick={linkopen}>
+        <mesh 
+          ref={meshRef}
+          onPointerOver={() => setHovered(true)} 
+          onPointerOut={() => setHovered(false)} 
+          onClick={linkopen}
+        >
           {children}
         </mesh>
+        {hovered && <FloatingLabel text={planetName} position={[0, 2, 0]} />}
       </group>
     </group>
   );
@@ -243,6 +354,12 @@ const KeyboardControls: React.FC<KeyboardControlsProps> = ({ controlsRef }) => {
 // Home Component
 const Home: NextPage = () => {
   const controlsRef = useRef<any>(null);
+  const [showIntro, setShowIntro] = useState(true);
+  const [camera, setCamera] = useState<THREE.Camera | null>(null);
+
+  const handleNext = () => {
+    setShowIntro(false);
+  };
 
   return (
     <div
@@ -251,6 +368,7 @@ const Home: NextPage = () => {
         height: "100vh",
         overflow: "hidden",
         background: "black",
+        position: "relative",
       }}
     >
       <Canvas camera={{ position: [0, 10, 20], fov: 60 }}>
@@ -261,32 +379,32 @@ const Home: NextPage = () => {
           <pointLight position={[10, 10, 10]} intensity={1} />
 
           <RotatingSun rotationSpeed={0.2} />
-          <RotatingPlanet rotationSpeed={1} revolutionSpeed={0.5} orbitDistance={8}>
+          <RotatingPlanet rotationSpeed={1} revolutionSpeed={0.5} orbitDistance={8} planetName="Mercury">
             <Mercury />
           </RotatingPlanet>
-          <RotatingPlanet rotationSpeed={1} revolutionSpeed={0.4} orbitDistance={12}>
+          <RotatingPlanet rotationSpeed={1} revolutionSpeed={0.4} orbitDistance={12} planetName="Venus">
             <Venus />
           </RotatingPlanet>
-          <RotatingPlanet rotationSpeed={1} revolutionSpeed={0.3} orbitDistance={18}>
+          <RotatingPlanet rotationSpeed={1} revolutionSpeed={0.3} orbitDistance={18} planetName="Earth">
             <group position={[0,2,0]}>
               <Earth />
             </group>
           </RotatingPlanet>
-          <RotatingPlanet rotationSpeed={1} revolutionSpeed={0.2} orbitDistance={25}>
+          <RotatingPlanet rotationSpeed={1} revolutionSpeed={0.2} orbitDistance={25} planetName="Mars" Linkforopen="https://www.linkedin.com/in/anuj-dubey-dev/">
             <Mars />
           </RotatingPlanet>
-          <RotatingPlanet rotationSpeed={1} revolutionSpeed={0.1} orbitDistance={34} Linkforopen="https://drive.google.com/file/d/18OW9TKWUkQKdsj52suIrKz43tfO2LtQA/view">
+          <RotatingPlanet rotationSpeed={1} revolutionSpeed={0.1} orbitDistance={34} planetName="Jupiter" Linkforopen="https://drive.google.com/file/d/18OW9TKWUkQKdsj52suIrKz43tfO2LtQA/view">
             <Jupiter />
           </RotatingPlanet>
-          <RotatingPlanet rotationSpeed={1} revolutionSpeed={0.08} orbitDistance={48} Linkforopen="https://github.com/hellspit">
+          <RotatingPlanet rotationSpeed={1} revolutionSpeed={0.08} orbitDistance={48} planetName="Saturn" Linkforopen="https://github.com/hellspit">
             <group rotation={[0,100,50]}>
-            <Saturn />
-          </group>
+              <Saturn />
+            </group>
           </RotatingPlanet>
-          <RotatingPlanet rotationSpeed={1} revolutionSpeed={0.06} orbitDistance={58}>
+          <RotatingPlanet rotationSpeed={1} revolutionSpeed={0.06} orbitDistance={58} planetName="Uranus">
             <Uranus />
           </RotatingPlanet>
-          <RotatingPlanet rotationSpeed={1} revolutionSpeed={0.05} orbitDistance={64}>
+          <RotatingPlanet rotationSpeed={1} revolutionSpeed={0.05} orbitDistance={64} planetName="Neptune">
             <Neptune />
           </RotatingPlanet>
 
@@ -294,6 +412,8 @@ const Home: NextPage = () => {
           <Preload all />
         </ErrorBoundary>
       </Canvas>
+      {camera && <RecenterButton camera={camera} />}
+      <InfoButton />
     </div>
   );
 };
