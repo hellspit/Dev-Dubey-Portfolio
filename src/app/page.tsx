@@ -9,11 +9,11 @@ import {
   useProgress,
   Html,
   Line,
+  Trail,
 } from "@react-three/drei";
 import { Suspense, useRef, ReactNode, useMemo, useEffect, useState } from "react";
 import type { NextPage } from "next";
 import dynamic from 'next/dynamic';
-
 
 // Error boundary component
 const ErrorBoundary = ({ children }: { children: ReactNode }) => {
@@ -134,6 +134,7 @@ function InfoButton() {
             height: "32px",
             borderRadius: "100%",
             overflow: "hidden",
+            transition: "transform 0.3s ease",
           }}
         >
           i
@@ -146,12 +147,22 @@ function InfoButton() {
           style={{
             position: "fixed",
             bottom: "16px",
-            left: "20px"
+            left: "20px",
+            transform: "scale(0)",
+            transformOrigin: "bottom left",
+            animation: "menuAppear 0.3s ease forwards",
+            maxWidth: "300px",
+            width: "90vw",
           }}
         >
           <button
             onClick={() => setShowMenu(false)}
             className="absolute top-3 right-3 text-white hover:text-[#00f7ff] transition-colors info-menu-close-button"
+            style={{
+              transition: "transform 0.3s ease",
+            }}
+            onMouseEnter={(e) => e.currentTarget.style.transform = "rotate(90deg)"}
+            onMouseLeave={(e) => e.currentTarget.style.transform = "rotate(0deg)"}
           >
             ×
           </button>
@@ -170,20 +181,20 @@ function InfoButton() {
               
               <div className="bg-gray-900 bg-opacity-50 rounded-lg border border-gray-700 info-menu-section" style={{ padding: "24px" }}>
                 <h4 className="text-white font-semibold mb-3 pl-4">Navigation Points</h4>
-                <ul className="text-sm text-white space-y-2 pl-4">
-                  <li className="flex items-center">
-                    <span className="text-red-500 mr-2">●</span>
-                    Mars - LinkedIn Profile
-                  </li>
-                  <li className="flex items-center">
-                    <span className="text-yellow-500 mr-2">●</span>
-                    Jupiter - Resume
-                  </li>
-                  <li className="flex items-center">
-                    <span className="text-orange-500 mr-2">●</span>
-                    Saturn - GitHub Profile
-                  </li>
-                </ul>
+                <div className="scroll-text">
+                  <div className="scroll-text-content text-sm text-white">
+                    <span className="text-red-500">●</span>
+                    <span>Mars - LinkedIn Profile</span>
+                  </div>
+                  <div className="scroll-text-content text-sm text-white">
+                    <span className="text-yellow-500">●</span>
+                    <span>Jupiter - Resume</span>
+                  </div>
+                  <div className="scroll-text-content text-sm text-white">
+                    <span className="text-orange-500">●</span>
+                    <span>Saturn - GitHub Profile</span>
+                  </div>
+                </div>
               </div>
 
               <div className="bg-gray-900 bg-opacity-50 rounded-lg border border-gray-700 info-menu-section" style={{ padding: "24px" }}>
@@ -370,6 +381,51 @@ const KeyboardControls: React.FC<KeyboardControlsProps> = ({ controlsRef }) => {
   return null;
 };
 
+// Add these new components after your existing imports
+const ShootingStar = () => {
+  const meshRef = useRef<THREE.Mesh>(null);
+  const startPosition = useMemo(() => new THREE.Vector3(
+    Math.random() * 100 - 50,
+    Math.random() * 50 + 20,
+    Math.random() * 100 - 50
+  ), []);
+
+  useFrame((state, delta) => {
+    if (meshRef.current) {
+      meshRef.current.position.x -= delta * 30;
+      meshRef.current.position.y -= delta * 20;
+      
+      // Reset position when star goes off screen
+      if (meshRef.current.position.x < -50) {
+        meshRef.current.position.copy(startPosition);
+      }
+    }
+  });
+
+  return (
+    <mesh ref={meshRef} position={startPosition}>
+      <sphereGeometry args={[0.1, 8, 8]} />
+      <meshBasicMaterial color="#ffffff" />
+      <Trail
+        width={0.5}
+        length={5}
+        color={new THREE.Color(0x4444ff)}
+        attenuation={(t) => t * t}
+      />
+    </mesh>
+  );
+};
+
+const ShootingStars = () => {
+  return (
+    <>
+      {Array.from({ length: 10 }).map((_, i) => (
+        <ShootingStar key={i} />
+      ))}
+    </>
+  );
+};
+
 // Home Component
 const Home: NextPage = () => {
   const controlsRef = useRef<any>(null);
@@ -396,6 +452,9 @@ const Home: NextPage = () => {
         <ErrorBoundary>
           <ambientLight intensity={2} />
           <pointLight position={[10, 10, 10]} intensity={1} />
+
+          {/* Add new visual elements */}
+          <ShootingStars />
 
           <RotatingSun rotationSpeed={0.2} />
           <RotatingPlanet rotationSpeed={1} revolutionSpeed={0.5} orbitDistance={8} planetName="Mercury">

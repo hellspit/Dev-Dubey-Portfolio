@@ -22,6 +22,29 @@ body {
   font-family: Arial, Helvetica, sans-serif;
 }
 
+/* Animation Keyframes */
+@keyframes menuAppear {
+  0% {
+    transform: scale(0);
+    opacity: 0;
+  }
+  100% {
+    transform: scale(1);
+    opacity: 1;
+  }
+}
+
+@keyframes scrollText {
+  0% {
+    transform: translateY(100%);
+    opacity: 0;
+  }
+  100% {
+    transform: translateY(0);
+    opacity: 1;
+  }
+}
+
 /* Info Menu Styles */
 .info-menu-container {
   border-radius: 20px;
@@ -51,14 +74,32 @@ body {
 
 .info-menu-title {
   color: #ffffff;
+  text-shadow: 0 0 10px rgba(0, 247, 255, 0.5);
 }
 
 .info-menu-section {
   color: #ffffff;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  animation: scrollText 0.5s ease forwards;
+  opacity: 0;
+}
+
+.info-menu-section:nth-child(1) { animation-delay: 0.1s; }
+.info-menu-section:nth-child(2) { animation-delay: 0.2s; }
+.info-menu-section:nth-child(3) { animation-delay: 0.3s; }
+
+.info-menu-section:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 5px 15px rgba(0, 247, 255, 0.1);
 }
 
 .info-menu-section h4 {
   color: #ffffff;
+  font-size: 1.1em;
+  font-weight: 600;
+  margin-bottom: 16px;
+  padding-left: 16px;
+  border-left: 3px solid #00f7ff;
 }
 
 .info-menu-section p {
@@ -68,6 +109,49 @@ body {
 .info-menu-section li {
   color: #ffffff;
 }
+
+/* Scroll Text Styles */
+.scroll-text {
+  position: relative;
+  overflow: hidden;
+  height: 120px;
+  margin: 10px 0;
+  padding: 0 16px;
+}
+
+.scroll-text-content {
+  position: absolute;
+  width: 100%;
+  padding: 12px 16px;
+  animation: scrollText 0.5s ease forwards;
+  opacity: 0;
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  background: rgba(0, 0, 0, 0.3);
+  border-radius: 8px;
+  transition: all 0.3s ease;
+}
+
+.scroll-text-content:hover {
+  background: rgba(0, 247, 255, 0.1);
+  transform: translateX(8px);
+}
+
+.scroll-text-content span:first-child {
+  font-size: 1.2em;
+  margin-right: 4px;
+}
+
+.scroll-text-content span:last-child {
+  font-size: 0.95em;
+  font-weight: 500;
+  letter-spacing: 0.5px;
+}
+
+.scroll-text-content:nth-child(1) { top: 0; animation-delay: 0.4s; }
+.scroll-text-content:nth-child(2) { top: 40px; animation-delay: 0.5s; }
+.scroll-text-content:nth-child(3) { top: 80px; animation-delay: 0.6s; }
 
 @keyframes neonPulse {
   0% {
