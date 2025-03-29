@@ -3,9 +3,6 @@
 :root {
   --background: #ffffff;
   --foreground: #171717;
-}
-
-@theme inline {
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --font-sans: var(--font-geist-sans);
@@ -23,4 +20,66 @@ body {
   background: var(--background);
   color: var(--foreground);
   font-family: Arial, Helvetica, sans-serif;
+}
+
+/* Info Menu Styles */
+.info-menu-container {
+  border-radius: 20px;
+  border: 2px solid #00f7ff;
+  width: 350px;
+  max-height: 300px;
+  overflow-y: auto;
+  backdrop-filter: blur(10px);
+  box-shadow: 0 0 5px #00f7ff, 0 0 10px #00f7ff, 0 0 15px #00f7ff;
+  animation: neonPulse 2s infinite;
+  padding: 32px 24px;
+}
+
+.info-menu-close-button {
+  background: none;
+  border: none;
+  cursor: pointer;
+  font-size: 24px;
+  padding: 4px;
+}
+
+@keyframes neonPulse {
+  0% {
+    box-shadow: 0 0 5px #00f7ff, 0 0 10px #00f7ff, 0 0 15px #00f7ff;
+  }
+  50% {
+    box-shadow: 0 0 8px #00f7ff, 0 0 15px #00f7ff, 0 0 20px #00f7ff;
+  }
+  100% {
+    box-shadow: 0 0 5px #00f7ff, 0 0 10px #00f7ff, 0 0 15px #00f7ff;
+  }
+}
+
+/* Mobile Responsive Styles */
+@media (max-width: 768px) {
+  .info-menu-container {
+    width: 90vw;
+    left: 5vw;
+    bottom: 80px;
+    max-height: 60vh;
+    padding: 20px 16px;
+  }
+
+  .info-menu-content {
+    font-size: 14px;
+  }
+
+  .info-menu-title {
+    font-size: 18px;
+  }
+
+  .info-menu-section {
+    padding: 16px !important;
+  }
+
+  .info-menu-close-button {
+    font-size: 20px;
+    top: 2px;
+    right: 2px;
+  }
 }

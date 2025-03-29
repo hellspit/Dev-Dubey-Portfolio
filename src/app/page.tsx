@@ -142,59 +142,33 @@ function InfoButton() {
 
       {showMenu && (
         <div
-          className="fixed bottom-16 left-20 bg-black bg-opacity-90 text-white rounded-lg"
+          className="fixed bottom-16 left-20 bg-black bg-opacity-90 text-white rounded-lg info-menu-container"
           style={{
-            borderRadius: "20px",
-            border: "2px solid #00f7ff",
-            width: "350px",
-            maxHeight: "300px",
-            overflowY: "auto",
-            backdropFilter: "blur(10px)",
-            boxShadow: "0 0 5px #00f7ff, 0 0 10px #00f7ff, 0 0 15px #00f7ff",
-            animation: "neonPulse 2s infinite",
-            padding: "32px 24px"
+            position: "fixed",
+            bottom: "16px",
+            left: "20px"
           }}
         >
-          <style jsx global>{`
-            @keyframes neonPulse {
-              0% {
-                box-shadow: 0 0 5px #00f7ff, 0 0 10px #00f7ff, 0 0 15px #00f7ff;
-              }
-              50% {
-                box-shadow: 0 0 8px #00f7ff, 0 0 15px #00f7ff, 0 0 20px #00f7ff;
-              }
-              100% {
-                box-shadow: 0 0 5px #00f7ff, 0 0 10px #00f7ff, 0 0 15px #00f7ff;
-              }
-            }
-          `}</style>
           <button
             onClick={() => setShowMenu(false)}
-            className="absolute top-3 right-3 text-white hover:text-[#00f7ff] transition-colors"
-            style={{
-              background: "none",
-              border: "none",
-              cursor: "pointer",
-              fontSize: "24px",
-              padding: "4px",
-            }}
+            className="absolute top-3 right-3 text-white hover:text-[#00f7ff] transition-colors info-menu-close-button"
           >
             ×
           </button>
-          <div className="mt-4">
+          <div className="mt-4 info-menu-content">
             <div className="flex items-center mb-6">
               <div className="w-2 h-2 bg-[#00f7ff] rounded-full mr-2 animate-pulse"></div>
-              <h3 className="text-xl font-bold text-[#00f7ff]">Space Explorer's Guide</h3>
+              <h3 className="text-xl font-bold text-[#00f7ff] info-menu-title">Space Explorer's Guide</h3>
             </div>
             <div className="space-y-6">
-              <div className="bg-gray-900 bg-opacity-50 rounded-lg border border-gray-700" style={{ padding: "24px" }}>
+              <div className="bg-gray-900 bg-opacity-50 rounded-lg border border-gray-700 info-menu-section" style={{ padding: "24px" }}>
                 <h4 className="text-[#00f7ff] font-semibold mb-3 pl-4">Mission Overview</h4>
                 <p className="text-sm text-gray-300 pl-4">
                   Welcome to my interactive solar system portfolio! Each celestial body represents a different aspect of my professional journey.
                 </p>
               </div>
               
-              <div className="bg-gray-900 bg-opacity-50 rounded-lg border border-gray-700" style={{ padding: "24px" }}>
+              <div className="bg-gray-900 bg-opacity-50 rounded-lg border border-gray-700 info-menu-section" style={{ padding: "24px" }}>
                 <h4 className="text-[#00f7ff] font-semibold mb-3 pl-4">Navigation Points</h4>
                 <ul className="text-sm text-gray-300 space-y-2 pl-4">
                   <li className="flex items-center">
@@ -212,7 +186,7 @@ function InfoButton() {
                 </ul>
               </div>
 
-              <div className="bg-gray-900 bg-opacity-50 rounded-lg border border-gray-700" style={{ padding: "24px" }}>
+              <div className="bg-gray-900 bg-opacity-50 rounded-lg border border-gray-700 info-menu-section" style={{ padding: "24px" }}>
                 <h4 className="text-[#00f7ff] font-semibold mb-3 pl-4">Mission Control</h4>
                 <p className="text-sm text-gray-300 pl-4">
                   Click on any planet to explore more about my professional journey. Use the orbit controls to navigate through the solar system.
