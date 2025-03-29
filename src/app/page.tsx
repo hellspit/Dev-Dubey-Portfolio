@@ -426,6 +426,30 @@ const ShootingStars = () => {
   );
 };
 
+// Add BackgroundMusic component
+const BackgroundMusic = () => {
+  const audioRef = useRef<HTMLAudioElement | null>(null);
+
+  useEffect(() => {
+    if (audioRef.current) {
+      audioRef.current.loop = true;
+      audioRef.current.volume = 0.3; // Set volume to 30%
+      audioRef.current.play().catch(error => {
+        console.log("Audio playback failed:", error);
+      });
+    }
+  }, []);
+
+  return (
+    <audio
+      ref={audioRef}
+      src="/intro.mp3"
+      preload="auto"
+      style={{ display: 'none' }}
+    />
+  );
+};
+
 // Home Component
 const Home: NextPage = () => {
   const controlsRef = useRef<any>(null);
@@ -446,6 +470,7 @@ const Home: NextPage = () => {
         position: "relative",
       }}
     >
+      <BackgroundMusic />
       <Canvas camera={{ position: [0, 10, 20], fov: 60 }}>
         <OrbitControls ref={controlsRef} />
         <KeyboardControls controlsRef={controlsRef} />
