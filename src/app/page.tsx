@@ -118,62 +118,107 @@ function InfoButton() {
         zIndex: 1000,
       }}
     >
-      <button
-        onClick={() => setShowMenu(!showMenu)}
-        className="w-8 h-8 bg-gray-800 text-white rounded-full flex items-center justify-center shadow-lg hover:bg-gray-700"
-        style={{
-          border: "2px solid #007bff",
-          cursor: "pointer",
-          fontSize: "16px",
-          fontStyle: "italic",
-          boxShadow: "0 0 15px rgba(0, 123, 255, 0.7)",
-          outline: "none",
-          padding: "0",
-          width: "32px",
-          height: "32px",
-          borderRadius: "100%",
-          overflow: "hidden",
-        }}
-      >
-        i
-      </button>
+      {!showMenu && (
+        <button
+          onClick={() => setShowMenu(!showMenu)}
+          className="w-8 h-8 bg-gray-800 text-white rounded-full flex items-center justify-center shadow-lg hover:bg-gray-700"
+          style={{
+            border: "2px solid #007bff",
+            cursor: "pointer",
+            fontSize: "16px",
+            fontStyle: "italic",
+            boxShadow: "0 0 15px rgba(0, 123, 255, 0.7)",
+            outline: "none",
+            padding: "0",
+            width: "32px",
+            height: "32px",
+            borderRadius: "100%",
+            overflow: "hidden",
+          }}
+        >
+          i
+        </button>
+      )}
 
       {showMenu && (
         <div
-          className="fixed bottom-16 left-20 bg-black bg-opacity-70 text-white p-4 rounded-lg shadow-lg"
+          className="fixed bottom-16 left-20 bg-black bg-opacity-90 text-white rounded-lg"
           style={{
-            width: "300px",
-            maxHeight: "200px",
+            borderRadius: "20px",
+            border: "2px solid #00f7ff",
+            width: "350px",
+            maxHeight: "300px",
             overflowY: "auto",
-            backdropFilter: "blur(5px)",
+            backdropFilter: "blur(10px)",
+            boxShadow: "0 0 5px #00f7ff, 0 0 10px #00f7ff, 0 0 15px #00f7ff",
+            animation: "neonPulse 2s infinite",
+            padding: "32px 24px"
           }}
         >
+          <style jsx global>{`
+            @keyframes neonPulse {
+              0% {
+                box-shadow: 0 0 5px #00f7ff, 0 0 10px #00f7ff, 0 0 15px #00f7ff;
+              }
+              50% {
+                box-shadow: 0 0 8px #00f7ff, 0 0 15px #00f7ff, 0 0 20px #00f7ff;
+              }
+              100% {
+                box-shadow: 0 0 5px #00f7ff, 0 0 10px #00f7ff, 0 0 15px #00f7ff;
+              }
+            }
+          `}</style>
           <button
             onClick={() => setShowMenu(false)}
-            className="absolute top-2 right-2 text-white hover:text-gray-300"
+            className="absolute top-3 right-3 text-white hover:text-[#00f7ff] transition-colors"
             style={{
               background: "none",
               border: "none",
               cursor: "pointer",
-              fontSize: "20px",
+              fontSize: "24px",
               padding: "4px",
             }}
           >
             ×
           </button>
           <div className="mt-4">
-            <h3 className="text-lg font-bold mb-2">Welcome to My Solar System Portfolio!</h3>
-            <p className="text-sm">
-              This interactive 3D solar system showcases my portfolio. Each planet represents different aspects of my work:
-            </p>
-            <ul className="text-sm mt-2 list-disc list-inside">
-              <li>Mars - LinkedIn Profile</li>
-              <li>Jupiter - Resume</li>
-              <li>Saturn - GitHub Profile</li>
-            </ul>
-            <p className="text-sm mt-2">
-              Click on the planets to explore more about me!
-            </p>
+            <div className="flex items-center mb-6">
+              <div className="w-2 h-2 bg-[#00f7ff] rounded-full mr-2 animate-pulse"></div>
+              <h3 className="text-xl font-bold text-[#00f7ff]">Space Explorer's Guide</h3>
+            </div>
+            <div className="space-y-6">
+              <div className="bg-gray-900 bg-opacity-50 rounded-lg border border-gray-700" style={{ padding: "24px" }}>
+                <h4 className="text-[#00f7ff] font-semibold mb-3 pl-4">Mission Overview</h4>
+                <p className="text-sm text-gray-300 pl-4">
+                  Welcome to my interactive solar system portfolio! Each celestial body represents a different aspect of my professional journey.
+                </p>
+              </div>
+              
+              <div className="bg-gray-900 bg-opacity-50 rounded-lg border border-gray-700" style={{ padding: "24px" }}>
+                <h4 className="text-[#00f7ff] font-semibold mb-3 pl-4">Navigation Points</h4>
+                <ul className="text-sm text-gray-300 space-y-2 pl-4">
+                  <li className="flex items-center">
+                    <span className="text-red-500 mr-2">●</span>
+                    Mars - LinkedIn Profile
+                  </li>
+                  <li className="flex items-center">
+                    <span className="text-yellow-500 mr-2">●</span>
+                    Jupiter - Resume
+                  </li>
+                  <li className="flex items-center">
+                    <span className="text-orange-500 mr-2">●</span>
+                    Saturn - GitHub Profile
+                  </li>
+                </ul>
+              </div>
+
+              <div className="bg-gray-900 bg-opacity-50 rounded-lg border border-gray-700" style={{ padding: "24px" }}>
+                <h4 className="text-[#00f7ff] font-semibold mb-3 pl-4">Mission Control</h4>
+                <p className="text-sm text-gray-300 pl-4">
+                  Click on any planet to explore more about my professional journey. Use the orbit controls to navigate through the solar system.
+                </p>
+              </div>
+            </div>
           </div>
         </div>
       )}
