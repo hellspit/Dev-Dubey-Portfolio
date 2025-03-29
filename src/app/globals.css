@@ -2,7 +2,7 @@
 
 :root {
   --background: #ffffff;
-  --foreground: #171717;
+  --foreground: #ffffff;
   --color-background: var(--background);
   --color-foreground: var(--foreground);
   --font-sans: var(--font-geist-sans);
@@ -12,7 +12,7 @@
 @media (prefers-color-scheme: dark) {
   :root {
     --background: #0a0a0a;
-    --foreground: #ededed;
+    --foreground: #ffffff;
   }
 }
 
@@ -33,6 +33,7 @@ body {
   box-shadow: 0 0 5px #00f7ff, 0 0 10px #00f7ff, 0 0 15px #00f7ff;
   animation: neonPulse 2s infinite;
   padding: 32px 24px;
+  color: #ffffff;
 }
 
 .info-menu-close-button {
@@ -41,6 +42,31 @@ body {
   cursor: pointer;
   font-size: 24px;
   padding: 4px;
+  color: #ffffff;
+}
+
+.info-menu-content {
+  color: #ffffff;
+}
+
+.info-menu-title {
+  color: #ffffff;
+}
+
+.info-menu-section {
+  color: #ffffff;
+}
+
+.info-menu-section h4 {
+  color: #ffffff;
+}
+
+.info-menu-section p {
+  color: #ffffff;
+}
+
+.info-menu-section li {
+  color: #ffffff;
 }
 
 @keyframes neonPulse {

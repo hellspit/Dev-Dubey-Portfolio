@@ -158,19 +158,19 @@ function InfoButton() {
           <div className="mt-4 info-menu-content">
             <div className="flex items-center mb-6">
               <div className="w-2 h-2 bg-[#00f7ff] rounded-full mr-2 animate-pulse"></div>
-              <h3 className="text-xl font-bold text-[#00f7ff] info-menu-title">Space Explorer's Guide</h3>
+              <h3 className="text-xl font-bold text-white info-menu-title">Space Explorer's Guide</h3>
             </div>
             <div className="space-y-6">
               <div className="bg-gray-900 bg-opacity-50 rounded-lg border border-gray-700 info-menu-section" style={{ padding: "24px" }}>
-                <h4 className="text-[#00f7ff] font-semibold mb-3 pl-4">Mission Overview</h4>
-                <p className="text-sm text-gray-300 pl-4">
+                <h4 className="text-white font-semibold mb-3 pl-4">Mission Overview</h4>
+                <p className="text-sm text-white pl-4">
                   Welcome to my interactive solar system portfolio! Each celestial body represents a different aspect of my professional journey.
                 </p>
               </div>
               
               <div className="bg-gray-900 bg-opacity-50 rounded-lg border border-gray-700 info-menu-section" style={{ padding: "24px" }}>
-                <h4 className="text-[#00f7ff] font-semibold mb-3 pl-4">Navigation Points</h4>
-                <ul className="text-sm text-gray-300 space-y-2 pl-4">
+                <h4 className="text-white font-semibold mb-3 pl-4">Navigation Points</h4>
+                <ul className="text-sm text-white space-y-2 pl-4">
                   <li className="flex items-center">
                     <span className="text-red-500 mr-2">●</span>
                     Mars - LinkedIn Profile
@@ -187,8 +187,8 @@ function InfoButton() {
               </div>
 
               <div className="bg-gray-900 bg-opacity-50 rounded-lg border border-gray-700 info-menu-section" style={{ padding: "24px" }}>
-                <h4 className="text-[#00f7ff] font-semibold mb-3 pl-4">Mission Control</h4>
-                <p className="text-sm text-gray-300 pl-4">
+                <h4 className="text-white font-semibold mb-3 pl-4">Mission Control</h4>
+                <p className="text-sm text-white pl-4">
                   Click on any planet to explore more about my professional journey. Use the orbit controls to navigate through the solar system.
                 </p>
               </div>
