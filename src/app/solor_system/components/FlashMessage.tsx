@@ -12,7 +12,7 @@ const FlashMessage: React.FC<FlashMessageProps> = ({ onClose }) => {
     setIsClosing(true);
     setTimeout(() => {
       onClose();
-    }, 1000);
+    }, 500);
   };
 
   return (

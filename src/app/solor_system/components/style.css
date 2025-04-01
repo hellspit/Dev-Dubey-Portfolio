@@ -263,7 +263,7 @@ body {
   color: white;
   text-align: center;
   z-index: 1000;
-  animation: spaceAppear 1.2s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+  animation: spaceAppear 0.6s cubic-bezier(0.4, 0, 0.2, 1) forwards;
   box-shadow: 0 0 30px rgba(0, 247, 255, 0.3);
   backdrop-filter: blur(10px);
   min-width: 600px;
@@ -382,7 +382,7 @@ body {
   border-radius: 50%;
   border: 3px solid #00f7ff;
   box-shadow: 0 0 20px rgba(0, 247, 255, 0.5);
-  animation: photoAppear 1.5s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+  animation: photoAppear 0.8s cubic-bezier(0.4, 0, 0.2, 1) forwards;
   opacity: 0;
   transform: scale(0.5);
   position: relative;
@@ -393,7 +393,7 @@ body {
   margin: 0 0 20px 0;
   color: #00f7ff;
   text-shadow: 0 0 10px rgba(0, 247, 255, 0.5);
-  animation: nameAppear 0.8s cubic-bezier(0.4, 0, 0.2, 1) forwards 0.5s;
+  animation: nameAppear 0.4s cubic-bezier(0.4, 0, 0.2, 1) forwards 0.3s;
   opacity: 0;
   transform: translateY(20px);
   position: relative;
@@ -605,7 +605,7 @@ body {
 }
 
 .flash-message.animate-spaceDisappear .flash-message-content {
-  animation: contentDisappear 0.8s ease forwards;
+  animation: contentDisappear 0.4s ease forwards;
 }
 
 .flash-message.animate-spaceDisappear .close-button {
@@ -651,7 +651,7 @@ body {
   align-items: center;
   justify-content: center;
   transition: all 0.3s ease;
-  animation: buttonAppear 0.5s cubic-bezier(0.4, 0, 0.2, 1) forwards 0.8s;
+  animation: buttonAppear 0.3s cubic-bezier(0.4, 0, 0.2, 1) forwards 0.5s;
   opacity: 0;
   transform: scale(0);
   z-index: 1001;
