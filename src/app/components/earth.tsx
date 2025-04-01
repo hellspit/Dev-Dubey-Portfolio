@@ -6,7 +6,7 @@ interface EarthProps {
 }
 
 const Earth: React.FC<EarthProps> = ({ onClick }) => {
-  const gltf = useGLTF("https://res.cloudinary.com/dm1yujy8h/image/upload/v1743075137/earth2_vapxo9.glb", true);
+  const gltf = useGLTF("https://res.cloudinary.com/dm1yujy8h/image/upload/v1743531766/earth_qudvwl.glb", true);
 
   return (
     <primitive 
@@ -18,6 +18,6 @@ const Earth: React.FC<EarthProps> = ({ onClick }) => {
 };
 
 // Preload the model
-useGLTF.preload("https://res.cloudinary.com/dm1yujy8h/image/upload/v1743075137/earth2_vapxo9.glb");
+useGLTF.preload("https://res.cloudinary.com/dm1yujy8h/image/upload/v1743531766/earth_qudvwl.glb");
 
 export default Earth;

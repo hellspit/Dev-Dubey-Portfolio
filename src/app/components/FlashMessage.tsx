@@ -30,7 +30,7 @@ const FlashMessage: React.FC<FlashMessageProps> = ({ onClose }) => {
           <h2>Anuj Dubey</h2>
           <div className="info-section">
             <h3>Education</h3>
-            <p className="college-name">Indian Institute of Information Technology</p>
+            <p className="college-name">Indian Institute of Information Technology Kalyani</p>
             <p className="year">Pre Final Year</p>
           </div>
         </div>

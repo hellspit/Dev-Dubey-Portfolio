@@ -11,7 +11,7 @@ import {
   Line,
   Trail,
 } from "@react-three/drei";
-import { Suspense, useRef, ReactNode, useMemo, useEffect, useState } from "react";
+import React, { Suspense, useRef, ReactNode, useMemo, useEffect, useState } from "react";
 import type { NextPage } from "next";
 import dynamic from 'next/dynamic';
 import FlashMessage from './components/FlashMessage';
@@ -177,32 +177,50 @@ function InfoButton() {
                 <h4 className="text-white font-semibold mb-3 pl-4">Mission Overview</h4>
                 <p className="text-sm text-white pl-4">
                   Welcome to my interactive solar system portfolio! Each celestial body represents a different aspect of my professional journey.
+                  use headphones for better experience.
                 </p>
               </div>
               
               <div className="bg-gray-900 bg-opacity-50 rounded-lg border border-gray-700 info-menu-section" style={{ padding: "24px" }}>
                 <h4 className="text-white font-semibold mb-3 pl-4">Navigation Points</h4>
-                <div className="scroll-text">
-                  <div className="scroll-text-content text-sm text-white">
-                    <span className="text-red-500">●</span>
+                <div className="space-y-3">
+                  <div className="flex items-center text-sm text-white">
+                    <span className="text-red-500 mr-2">●</span>
                     <span>Mars - LinkedIn</span>
                   </div>
-                  <div className="scroll-text-content text-sm text-white">
-                    <span className="text-yellow-500">●</span>
+                  <div className="flex items-center text-sm text-white">
+                    <span className="text-yellow-500 mr-2">●</span>
                     <span>Jupiter - Resume</span>
                   </div>
-                  <div className="scroll-text-content text-sm text-white">
-                    <span className="text-orange-500">●</span>
+                  <div className="flex items-center text-sm text-white">
+                    <span className="text-orange-500 mr-2">●</span>
                     <span>Saturn - GitHub Profile</span>
+                  </div>
+                  <div className="flex items-center text-sm text-white">
+                    <span className="text-yellow-500 mr-2">●</span>
+                    <span>Earth - Personal info</span>
+                  </div>
+                  <div className="flex items-center text-sm text-white">
+                    <span className="text-yellow-500 mr-2">●</span>
+                    <span>Uranus - Contact <menu></menu></span>
                   </div>
                 </div>
               </div>
 
               <div className="bg-gray-900 bg-opacity-50 rounded-lg border border-gray-700 info-menu-section" style={{ padding: "24px" }}>
                 <h4 className="text-white font-semibold mb-3 pl-4">Mission Control</h4>
-                <p className="text-sm text-white pl-4">
-                  Click on any planet to explore more about my professional journey. Use the orbit controls to navigate through the solar system.
-                </p>
+                <div className="space-y-3 text-sm text-white pl-4">
+                  <p>Click on any planet to explore more about my professional journey.</p>
+                  <div className="mt-4">
+                    <p className="text-[#00f7ff] font-medium mb-2">Navigation Controls:</p>
+                    <ul className="space-y-2 text-gray-300">
+                      <li>W A S D - Move camera</li>
+                      <li>Q/E - Move up/down</li>
+                      <li>Mouse Scroll - Zoom in/out</li>
+                      <li>Left Click + Drag - Rotate view</li>
+                    </ul>
+                  </div>
+                </div>
               </div>
             </div>
           </div>
@@ -487,11 +505,11 @@ const Home: NextPage = () => {
           <RotatingPlanet rotationSpeed={1} revolutionSpeed={0.5} orbitDistance={8} planetName="Mercury">
             <Mercury />
           </RotatingPlanet>
-          <RotatingPlanet rotationSpeed={1} revolutionSpeed={0.4} orbitDistance={12} planetName="Venus">
+          <RotatingPlanet rotationSpeed={-1} revolutionSpeed={0.4} orbitDistance={12} planetName="Venus">
             <Venus />
           </RotatingPlanet>
           <RotatingPlanet rotationSpeed={1} revolutionSpeed={0.3} orbitDistance={18} planetName="Earth">
-            <group position={[0,2,0]}>
+            <group position={[0,0,0]} rotation={[0,0,0]}>
               <Earth onClick={() => setShowFlashMessage(true)} />
             </group>
           </RotatingPlanet>
@@ -503,10 +521,10 @@ const Home: NextPage = () => {
           </RotatingPlanet>
           <RotatingPlanet rotationSpeed={1} revolutionSpeed={0.08} orbitDistance={48} planetName="Saturn" Linkforopen="https://github.com/hellspit">
             <group rotation={[0,100,50]}>
-              <Saturn />
+              <Saturn />0
             </group>
           </RotatingPlanet>
-          <RotatingPlanet rotationSpeed={1} revolutionSpeed={0.06} orbitDistance={58} planetName="Uranus">
+          <RotatingPlanet rotationSpeed={-1} revolutionSpeed={0.06} orbitDistance={58} planetName="Uranus" Linkforopen="mailto:anuj.dubey.dev@gmail.com">
             <Uranus />
           </RotatingPlanet>
           <RotatingPlanet rotationSpeed={1} revolutionSpeed={0.05} orbitDistance={64} planetName="Neptune">
