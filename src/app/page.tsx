@@ -25,7 +25,7 @@ const ErrorBoundary = ({ children }: { children: ReactNode }) => {
   );
 };
 
-// Dynamically import planet components with no SSR and error handling
+
 const Sun = dynamic(() => import("./components/sun"), { 
   ssr: false,
   loading: () => <Html center><div style={{ color: "white" }}>Loading Sun...</div></Html>
@@ -76,7 +76,7 @@ function Loader() {
 // Recenter Button Component
 function RecenterButton({ camera }: { camera: THREE.Camera }) {
   const recenterCamera = () => {
-    camera.position.set(0, 10, 20); // Reset camera position
+    camera.position.set(0, 10, 20); 
     camera.lookAt(0, 0, 0);
   };
 
@@ -469,6 +469,51 @@ const BackgroundMusic = () => {
   );
 };
 
+// Navigation Guide Component
+const NavigationGuide = () => {
+  return (
+    <div
+      className="fixed top-4 left-4 z-50 bg-gray-800 text-white rounded-lg p-4"
+      style={{
+        position: "fixed",
+        top: "20px",
+        left: "20px",
+        zIndex: 1000,
+        border: "2px solid #00f7ff",
+        boxShadow: "0 0 15px rgba(0, 247, 255, 0.7)",
+        transition: "all 0.3s ease",
+      }}
+    >
+      <h3 className="text-lg font-bold mb-3 flex items-center">
+        <span className="text-[#00f7ff] mr-2"></span>
+        Navigation Guide
+      </h3>
+      <div className="space-y-2 text-sm">
+        <div className="flex items-center hover:text-[#00f7ff] transition-colors">
+          <span className="text-red-500 mr-2">●</span>
+          <span>Mars - LinkedIn</span>
+        </div>
+        <div className="flex items-center hover:text-[#00f7ff] transition-colors">
+          <span className="text-yellow-500 mr-2">●</span>
+          <span>Jupiter - Resume</span>
+        </div>
+        <div className="flex items-center hover:text-[#00f7ff] transition-colors">
+          <span className="text-orange-500 mr-2">●</span>
+          <span>Saturn - GitHub Profile</span>
+        </div>
+        <div className="flex items-center hover:text-[#00f7ff] transition-colors">
+          <span className="text-yellow-500 mr-2">●</span>
+          <span>Earth - Personal info</span>
+        </div>
+        <div className="flex items-center hover:text-[#00f7ff] transition-colors">
+          <span className="text-yellow-500 mr-2">●</span>
+          <span>Uranus - Contact</span>
+        </div>
+      </div>
+    </div>
+  );
+};
+
 // Home Component
 const Home: NextPage = () => {
   const controlsRef = useRef<any>(null);
@@ -491,6 +536,7 @@ const Home: NextPage = () => {
       }}
     >
       <BackgroundMusic />
+      <NavigationGuide />
       <Canvas camera={{ position: [0, 10, 20], fov: 60 }}>
         <OrbitControls ref={controlsRef} />
         <KeyboardControls controlsRef={controlsRef} />
