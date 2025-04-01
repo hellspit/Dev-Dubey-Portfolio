@@ -482,13 +482,16 @@ const NavigationGuide = () => {
         border: "2px solid #00f7ff",
         boxShadow: "0 0 15px rgba(0, 247, 255, 0.7)",
         transition: "all 0.3s ease",
+        width: "280px",
+        display: "flex",
+        flexDirection: "column",
+        alignItems: "center"
       }}
     >
-      <h3 className="text-lg font-bold mb-3 flex items-center">
-        <span className="text-[#00f7ff] mr-2"></span>
+      <h3 className="text-lg font-bold mb-3" style={{ textAlign: "center", width: "100%" }}>
         Navigation Guide
       </h3>
-      <div className="space-y-2 text-sm">
+      <div className="space-y-2 text-sm" style={{ width: "100%" }}>
         <div className="flex items-center hover:text-[#00f7ff] transition-colors">
           <span className="text-red-500 mr-2">●</span>
           <span>Mars - LinkedIn</span>
@@ -508,6 +511,10 @@ const NavigationGuide = () => {
         <div className="flex items-center hover:text-[#00f7ff] transition-colors">
           <span className="text-yellow-500 mr-2">●</span>
           <span>Uranus - Contact</span>
+        </div>
+        <div className="flex items-center hover:text-[#00f7ff] transition-colors">
+          <span className="text-blue-500 mr-2">●</span>
+          <span>Info Button - More Details</span>
         </div>
       </div>
     </div>
