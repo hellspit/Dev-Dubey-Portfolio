@@ -16,8 +16,17 @@ import type { NextPage } from "next";
 import dynamic from 'next/dynamic';
 import FlashMessage from './components/FlashMessage';
 
+// Type declarations for dynamic imports
+interface PlanetProps {
+  onClick?: () => void;
+}
+
 // Error boundary component
-const ErrorBoundary = ({ children }: { children: ReactNode }) => {
+interface ErrorBoundaryProps {
+  children: ReactNode;
+}
+
+const ErrorBoundary: React.FC<ErrorBoundaryProps> = ({ children }) => {
   return (
     <Suspense fallback={<Html center><div style={{ color: "white" }}>Loading...</div></Html>}>
       {children}
@@ -25,40 +34,40 @@ const ErrorBoundary = ({ children }: { children: ReactNode }) => {
   );
 };
 
-
-const Sun = dynamic(() => import("./components/sun"), { 
+// Dynamic imports with proper typing
+const Sun = dynamic<PlanetProps>(() => import("./components/sun"), { 
   ssr: false,
   loading: () => <Html center><div style={{ color: "white" }}>Loading Sun...</div></Html>
 });
-const Mercury = dynamic(() => import("./components/mercury"), { 
+const Mercury = dynamic<PlanetProps>(() => import("./components/mercury"), { 
   ssr: false,
   loading: () => <Html center><div style={{ color: "white" }}>Loading Mercury...</div></Html>
 });
-const Venus = dynamic(() => import("./components/venus"), { 
+const Venus = dynamic<PlanetProps>(() => import("./components/venus"), { 
   ssr: false,
   loading: () => <Html center><div style={{ color: "white" }}>Loading Venus...</div></Html>
 });
-const Earth = dynamic(() => import("./components/earth"), { 
+const Earth = dynamic<PlanetProps>(() => import("./components/earth"), { 
   ssr: false,
   loading: () => <Html center><div style={{ color: "white" }}>Loading Earth...</div></Html>
 });
-const Mars = dynamic(() => import("./components/mars"), { 
+const Mars = dynamic<PlanetProps>(() => import("./components/mars"), { 
   ssr: false,
   loading: () => <Html center><div style={{ color: "white" }}>Loading Mars...</div></Html>
 });
-const Jupiter = dynamic(() => import("./components/jupiter"), { 
+const Jupiter = dynamic<PlanetProps>(() => import("./components/jupiter"), { 
   ssr: false,
   loading: () => <Html center><div style={{ color: "white" }}>Loading Jupiter...</div></Html>
 });
-const Saturn = dynamic(() => import("./components/saturn"), { 
+const Saturn = dynamic<PlanetProps>(() => import("./components/saturn"), { 
   ssr: false,
   loading: () => <Html center><div style={{ color: "white" }}>Loading Saturn...</div></Html>
 });
-const Uranus = dynamic(() => import("./components/uranus"), { 
+const Uranus = dynamic<PlanetProps>(() => import("./components/uranus"), { 
   ssr: false,
   loading: () => <Html center><div style={{ color: "white" }}>Loading Uranus...</div></Html>
 });
-const Neptune = dynamic(() => import("./components/neptune"), { 
+const Neptune = dynamic<PlanetProps>(() => import("./components/neptune"), { 
   ssr: false,
   loading: () => <Html center><div style={{ color: "white" }}>Loading Neptune...</div></Html>
 });
@@ -74,7 +83,11 @@ function Loader() {
 }
 
 // Recenter Button Component
-function RecenterButton({ camera }: { camera: THREE.Camera }) {
+interface RecenterButtonProps {
+  camera: THREE.Camera;
+}
+
+const RecenterButton: React.FC<RecenterButtonProps> = ({ camera }) => {
   const recenterCamera = () => {
     camera.position.set(0, 10, 20); 
     camera.lookAt(0, 0, 0);
@@ -103,16 +116,25 @@ function RecenterButton({ camera }: { camera: THREE.Camera }) {
       </button>
     </div>
   );
-}
+};
 
 // Info Button Component
-function InfoButton({ onMenuToggle }: { onMenuToggle: (show: boolean) => void }) {
+interface InfoButtonProps {
+  onNavClose: () => void;
+  onNavShow: () => void;
+}
+
+function InfoButton({ onNavClose, onNavShow }: InfoButtonProps) {
   const [showMenu, setShowMenu] = useState(false);
 
-  const handleMenuToggle = () => {
-    const newShowMenu = !showMenu;
-    setShowMenu(newShowMenu);
-    onMenuToggle(!newShowMenu);
+  const handleClick = () => {
+    setShowMenu(!showMenu);
+    onNavClose();
+  };
+
+  const handleCloseMenu = () => {
+    setShowMenu(false);
+    onNavShow();
   };
 
   return (
@@ -127,7 +149,7 @@ function InfoButton({ onMenuToggle }: { onMenuToggle: (show: boolean) => void })
     >
       {!showMenu && (
         <button
-          onClick={handleMenuToggle}
+          onClick={handleClick}
           className="w-8 h-8 bg-gray-800 text-white rounded-full flex items-center justify-center shadow-lg hover:bg-gray-700"
           style={{
             border: "2px solid #007bff",
@@ -150,294 +172,108 @@ function InfoButton({ onMenuToggle }: { onMenuToggle: (show: boolean) => void })
 
       {showMenu && (
         <div
-          className="fixed bottom-16 left-20 info-menu-container"
+          className="fixed bottom-16 left-20 bg-black bg-opacity-90 text-white rounded-lg info-menu-container"
           style={{
             position: "fixed",
             bottom: "16px",
             left: "20px",
-            transform: "scale(1)",
+            transform: "scale(0)",
             transformOrigin: "bottom left",
-            transition: "all 0.3s cubic-bezier(0.4, 0, 0.2, 1)",
+            animation: "menuAppear 0.3s ease forwards",
             maxWidth: "300px",
             width: "90vw",
-            maxHeight: "60vh",
-            opacity: 1,
-            visibility: "visible",
-            background: "rgba(8, 12, 16, 0.95)",
-            backdropFilter: "blur(12px)",
-            borderRadius: "12px",
-            border: "1px solid rgba(0, 247, 255, 0.8)",
-            boxShadow: `
-              0 0 20px rgba(0, 247, 255, 0.3),
-              0 0 40px rgba(0, 247, 255, 0.2),
-              0 0 60px rgba(0, 247, 255, 0.1),
-              inset 0 0 30px rgba(0, 247, 255, 0.05),
-              0 0 5px rgba(0, 247, 255, 1)
-            `,
-            padding: "16px",
-            overflowY: "auto",
-            overflowX: "hidden",
-            scrollbarWidth: "thin",
-            scrollbarColor: "rgba(0, 247, 255, 0.3) rgba(8, 12, 16, 0.95)"
           }}
         >
-          <style>
-            {`
-              .info-menu-container {
-                animation: slideIn 0.3s ease-out;
-              }
+          <button
+            onClick={handleCloseMenu}
+            className="close-button"
+            style={{
+              position: "absolute",
+              top: "8px",
+              right: "8px",
+              background: "transparent",
+              border: "1px solid rgba(0, 247, 255, 0.4)",
+              color: "#00f7ff",
+              fontSize: "18px",
+              width: "24px",
+              height: "24px",
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
+              borderRadius: "50%",
+              cursor: "pointer",
+              transition: "all 0.2s ease",
+              boxShadow: "0 0 10px rgba(0, 247, 255, 0.2)",
+              zIndex: 10,
+            }}
+            onMouseOver={(e) => {
+              e.currentTarget.style.transform = "rotate(90deg) scale(1.1)";
+              e.currentTarget.style.boxShadow = "0 0 15px rgba(0, 247, 255, 0.4)";
+              e.currentTarget.style.border = "1px solid rgba(0, 247, 255, 0.8)";
+            }}
+            onMouseOut={(e) => {
+              e.currentTarget.style.transform = "rotate(0deg) scale(1)";
+              e.currentTarget.style.boxShadow = "0 0 10px rgba(0, 247, 255, 0.2)";
+              e.currentTarget.style.border = "1px solid rgba(0, 247, 255, 0.4)";
+            }}
+          >
+            ×
+          </button>
 
-              .info-menu-container::-webkit-scrollbar {
-                width: 3px;
-              }
-              
-              .info-menu-container::-webkit-scrollbar-track {
-                background: rgba(8, 12, 16, 0.95);
-                border-radius: 2px;
-              }
-              
-              .info-menu-container::-webkit-scrollbar-thumb {
-                background: rgba(0, 247, 255, 0.3);
-                border-radius: 2px;
-                box-shadow: 0 0 10px rgba(0, 247, 255, 0.5);
-              }
-              
-              .info-menu-container::-webkit-scrollbar-thumb:hover {
-                background: rgba(0, 247, 255, 0.5);
-              }
-
-              @keyframes slideIn {
-                from {
-                  opacity: 0;
-                  transform: translateY(20px) scale(0.95);
-                }
-                to {
-                  opacity: 1;
-                  transform: translateY(0) scale(1);
-                }
-              }
-
-              @keyframes neonPulse {
-                0% {
-                  box-shadow: 
-                    0 0 20px rgba(0, 247, 255, 0.3),
-                    0 0 40px rgba(0, 247, 255, 0.2),
-                    0 0 60px rgba(0, 247, 255, 0.1);
-                  border-color: rgba(0, 247, 255, 0.6);
-                }
-                50% {
-                  box-shadow: 
-                    0 0 25px rgba(0, 247, 255, 0.4),
-                    0 0 50px rgba(0, 247, 255, 0.3),
-                    0 0 75px rgba(0, 247, 255, 0.2);
-                  border-color: rgba(0, 247, 255, 0.8);
-                }
-                100% {
-                  box-shadow: 
-                    0 0 20px rgba(0, 247, 255, 0.3),
-                    0 0 40px rgba(0, 247, 255, 0.2),
-                    0 0 60px rgba(0, 247, 255, 0.1);
-                  border-color: rgba(0, 247, 255, 0.6);
-                }
-              }
-
-              .menu-section {
-                animation: neonPulse 3s infinite;
-                background: rgba(0, 247, 255, 0.03) !important;
-                border: 1px solid rgba(0, 247, 255, 0.3) !important;
-                box-shadow: 
-                  0 0 15px rgba(0, 247, 255, 0.2),
-                  0 0 30px rgba(0, 247, 255, 0.1),
-                  inset 0 0 20px rgba(0, 247, 255, 0.05);
-              }
-
-              .menu-item {
-                transition: all 0.2s ease;
-                border: 1px solid transparent;
-                position: relative;
-              }
-
-              .menu-item:hover {
-                background: rgba(0, 247, 255, 0.08);
-                border: 1px solid rgba(0, 247, 255, 0.4);
-                transform: translateX(5px);
-                box-shadow: 
-                  0 0 15px rgba(0, 247, 255, 0.2),
-                  0 0 30px rgba(0, 247, 255, 0.1);
-              }
-
-              @media (max-width: 768px) {
-                .info-menu-container {
-                  left: 10px;
-                  right: 10px;
-                  bottom: 80px;
-                  width: auto;
-                }
-              }
-            `}
-          </style>
-
-          <div className="info-menu-content">
-            <button
-              onClick={handleMenuToggle}
-              className="close-button"
-              style={{
-                position: "absolute",
-                top: "12px",
-                right: "12px",
-                background: "transparent",
-                border: "1px solid rgba(0, 247, 255, 0.4)",
-                color: "#00f7ff",
-                fontSize: "20px",
-                width: "28px",
-                height: "28px",
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                borderRadius: "50%",
-                cursor: "pointer",
-                transition: "all 0.2s ease",
-                boxShadow: "0 0 10px rgba(0, 247, 255, 0.2)",
-                zIndex: 10,
-              }}
-              onMouseOver={(e) => {
-                e.currentTarget.style.transform = "rotate(90deg) scale(1.1)";
-                e.currentTarget.style.boxShadow = "0 0 15px rgba(0, 247, 255, 0.4)";
-                e.currentTarget.style.border = "1px solid rgba(0, 247, 255, 0.8)";
-              }}
-              onMouseOut={(e) => {
-                e.currentTarget.style.transform = "rotate(0deg) scale(1)";
-                e.currentTarget.style.boxShadow = "0 0 10px rgba(0, 247, 255, 0.2)";
-                e.currentTarget.style.border = "1px solid rgba(0, 247, 255, 0.4)";
-              }}
-            >
-              ×
-            </button>
-            <style>
-              {`
-                .close-button:hover {
-                  text-shadow: 0 0 8px rgba(0, 247, 255, 0.8);
-                }
-              `}
-            </style>
-            <div className="flex items-center mb-4" style={{
-              borderBottom: "1px solid rgba(0, 247, 255, 0.2)",
-              paddingBottom: "8px",
-              marginBottom: "12px"
-            }}>
+          <div className="mt-4 info-menu-content">
+            <div className="flex items-center mb-6">
               <div className="w-2 h-2 bg-[#00f7ff] rounded-full mr-2 animate-pulse"></div>
-              <h3 style={{
-                color: "#00f7ff",
-                fontSize: "1.1rem",
-                fontWeight: "600",
-                letterSpacing: "0.5px",
-                textShadow: "0 0 10px rgba(0, 247, 255, 0.5)"
-              }}>Space Explorer's Guide</h3>
+              <h3 className="text-xl font-bold text-white info-menu-title">Space Explorer's Guide</h3>
             </div>
 
-            <div className="space-y-4">
-              <div className="menu-section" style={{
-                padding: "10px",
-                borderRadius: "8px",
-              }}>
-                <h4 style={{
-                  color: "#00f7ff",
-                  fontSize: "0.95rem",
-                  fontWeight: "500",
-                  marginBottom: "8px"
-                }}>Mission Overview</h4>
-                <p style={{
-                  color: "#e5e7eb",
-                  lineHeight: "1.5",
-                  fontSize: "0.85rem"
-                }}>
+            <div className="space-y-6">
+              <div className="bg-gray-900 bg-opacity-50 rounded-lg border border-gray-700 info-menu-section" style={{ padding: "24px" }}>
+                <h4 className="text-white font-semibold mb-3 pl-4">Mission Overview</h4>
+                <p className="text-sm text-white pl-4">
                   Welcome to my interactive solar system portfolio! Each celestial body represents a different aspect of my professional journey.
                   use headphones for better experience.
                 </p>
               </div>
 
-              <div className="menu-section" style={{
-                padding: "10px",
-                borderRadius: "8px",
-              }}>
-                <h4 style={{
-                  color: "#00f7ff",
-                  fontSize: "0.95rem",
-                  fontWeight: "500",
-                  marginBottom: "8px"
-                }}>Navigation Points</h4>
-                <div className="space-y-2">
-                  <div className="menu-item" style={{ padding: "8px", borderRadius: "6px" }}>
-                    <span style={{ color: "#00aaff", marginRight: "8px" }}>●</span>
-                    <span style={{ color: "#e5e7eb" }}>Earth - Personal info</span>
+              <div className="bg-gray-900 bg-opacity-50 rounded-lg border border-gray-700 info-menu-section" style={{ padding: "24px" }}>
+                <h4 className="text-white font-semibold mb-3 pl-4">Navigation Points</h4>
+                <div className="space-y-3">
+                  <div className="flex items-center text-sm text-white">
+                    <span className="text-red-500 mr-2">●</span>
+                    <span>Mars - LinkedIn</span>
                   </div>
-                  <div className="menu-item" style={{ padding: "8px", borderRadius: "6px" }}>
-                    <span style={{ color: "#ff4444", marginRight: "8px" }}>●</span>
-                    <span style={{ color: "#e5e7eb" }}>Mars - LinkedIn</span>
+                  <div className="flex items-center text-sm text-white">
+                    <span className="text-yellow-500 mr-2">●</span>
+                    <span>Jupiter - Resume</span>
                   </div>
-                  <div className="menu-item" style={{ padding: "8px", borderRadius: "6px" }}>
-                    <span style={{ color: "#ffaa00", marginRight: "8px" }}>●</span>
-                    <span style={{ color: "#e5e7eb" }}>Jupiter - Resume</span>
+                  <div className="flex items-center text-sm text-white">
+                    <span className="text-orange-500 mr-2">●</span>
+                    <span>Saturn - GitHub Profile</span>
                   </div>
-                  <div className="menu-item" style={{ padding: "8px", borderRadius: "6px" }}>
-                    <span style={{ color: "#ff8800", marginRight: "8px" }}>●</span>
-                    <span style={{ color: "#e5e7eb" }}>Saturn - GitHub Profile</span>
+                  <div className="flex items-center text-sm text-white">
+                    <span className="text-yellow-500 mr-2">●</span>
+                    <span>Earth - Personal info</span>
                   </div>
-                  <div className="menu-item" style={{ padding: "8px", borderRadius: "6px" }}>
-                    <span style={{ color: "#00ffaa", marginRight: "8px" }}>●</span>
-                    <span style={{ color: "#e5e7eb" }}>Uranus - Contact</span>
-                  </div>
-                  <div className="menu-item" style={{ padding: "8px", borderRadius: "6px" }}>
-                    <span style={{ color: "#00f7ff", marginRight: "8px" }}>●</span>
-                    <span style={{ color: "#e5e7eb" }}>i - More Info</span>
+                  <div className="flex items-center text-sm text-white">
+                    <span className="text-yellow-500 mr-2">●</span>
+                    <span>Uranus - Contact menu</span>
                   </div>
                 </div>
               </div>
 
-              <div className="menu-section" style={{
-                padding: "10px",
-                borderRadius: "8px",
-              }}>
-                <h4 style={{
-                  color: "#00f7ff",
-                  fontSize: "0.95rem",
-                  fontWeight: "500",
-                  marginBottom: "8px"
-                }}>Mission Control</h4>
-                <div className="space-y-2">
-                  <p style={{ 
-                    color: "#e5e7eb", 
-                    fontSize: "0.85rem", 
-                    marginBottom: "6px" 
-                  }}>
-                    Click on any planet to explore more about my professional journey.
-                  </p>
-                  <div style={{ 
-                    color: "#00f7ff", 
-                    fontWeight: "500", 
-                    marginBottom: "6px",
-                    fontSize: "0.9rem"
-                  }}>
-                    Navigation Controls:
+              <div className="bg-gray-900 bg-opacity-50 rounded-lg border border-gray-700 info-menu-section" style={{ padding: "24px" }}>
+                <h4 className="text-white font-semibold mb-3 pl-4">Mission Control</h4>
+                <div className="space-y-3 text-sm text-white pl-4">
+                  <p>Click on any planet to explore more about my professional journey.</p>
+                  <div className="mt-4">
+                    <p className="text-[#00f7ff] font-medium mb-2">Navigation Controls:</p>
+                    <ul className="space-y-2 text-gray-300">
+                      <li>W A S D - Move camera</li>
+                      <li>Q/E - Move up/down</li>
+                      <li>Mouse Scroll - Zoom in/out</li>
+                      <li>Left Click + Drag - Rotate view</li>
+                    </ul>
                   </div>
-                  <ul style={{ color: "#e5e7eb", fontSize: "0.85rem" }}>
-                    <li className="menu-item" style={{ padding: "4px 8px", borderRadius: "4px" }}>
-                      <span style={{ color: "#00f7ff", marginRight: "8px" }}>W A S D</span>
-                      - Move camera
-                    </li>
-                    <li className="menu-item" style={{ padding: "4px 8px", borderRadius: "4px" }}>
-                      <span style={{ color: "#00f7ff", marginRight: "8px" }}>Q/E</span>
-                      - Move up/down
-                    </li>
-                    <li className="menu-item" style={{ padding: "4px 8px", borderRadius: "4px" }}>
-                      <span style={{ color: "#00f7ff", marginRight: "8px" }}>Mouse Scroll</span>
-                      - Zoom in/out
-                    </li>
-                    <li className="menu-item" style={{ padding: "4px 8px", borderRadius: "4px" }}>
-                      <span style={{ color: "#00f7ff", marginRight: "8px" }}>Left Click + Drag</span>
-                      - Rotate view
-                    </li>
-                  </ul>
                 </div>
               </div>
             </div>
@@ -449,7 +285,12 @@ function InfoButton({ onMenuToggle }: { onMenuToggle: (show: boolean) => void })
 }
 
 // Floating Label Component
-const FloatingLabel: React.FC<{ text: string; position: [number, number, number] }> = ({ text, position }) => {
+interface FloatingLabelProps {
+  text: string;
+  position: [number, number, number];
+}
+
+const FloatingLabel: React.FC<FloatingLabelProps> = ({ text, position }) => {
   return (
     <Html position={position} center>
       <div style={{
@@ -476,6 +317,7 @@ interface RotatingPlanetProps {
   orbitDistance: number;
   Linkforopen?: string;
   planetName: string;
+  onClick?: () => void;
 }
 
 const RotatingPlanet: React.FC<RotatingPlanetProps> = ({
@@ -485,6 +327,7 @@ const RotatingPlanet: React.FC<RotatingPlanetProps> = ({
   orbitDistance,
   Linkforopen,
   planetName,
+  onClick,
 }) => {
   const [hovered, setHovered] = useState(false);
   const revolutionRef = useRef<THREE.Group>(null);
@@ -495,7 +338,6 @@ const RotatingPlanet: React.FC<RotatingPlanetProps> = ({
     if (rotationRef.current) rotationRef.current.rotation.y += rotationSpeed * delta;
     if (revolutionRef.current) revolutionRef.current.rotation.y += revolutionSpeed * delta;
     
-    // Smooth scale animation
     if (meshRef.current) {
       const targetScale = hovered ? 1.3 : 1;
       meshRef.current.scale.lerp(new THREE.Vector3(targetScale, targetScale, targetScale), 0.1);
@@ -516,7 +358,7 @@ const RotatingPlanet: React.FC<RotatingPlanetProps> = ({
           ref={meshRef}
           onPointerOver={() => setHovered(true)} 
           onPointerOut={() => setHovered(false)} 
-          onClick={linkopen}
+          onClick={onClick || linkopen}
         >
           {children}
         </mesh>
@@ -619,20 +461,18 @@ const KeyboardControls: React.FC<KeyboardControlsProps> = ({ controlsRef }) => {
 };
 
 // Add these new components after your existing imports
-const ShootingStar = () => {
+interface ShootingStarProps {
+  startPosition: THREE.Vector3;
+}
+
+const ShootingStar: React.FC<ShootingStarProps> = ({ startPosition }) => {
   const meshRef = useRef<THREE.Mesh>(null);
-  const startPosition = useMemo(() => new THREE.Vector3(
-    Math.random() * 100 - 50,
-    Math.random() * 50 + 20,
-    Math.random() * 100 - 50
-  ), []);
 
   useFrame((state, delta) => {
     if (meshRef.current) {
       meshRef.current.position.x -= delta * 30;
       meshRef.current.position.y -= delta * 20;
       
-      // Reset position when star goes off screen
       if (meshRef.current.position.x < -50) {
         meshRef.current.position.copy(startPosition);
       }
@@ -653,24 +493,32 @@ const ShootingStar = () => {
   );
 };
 
-const ShootingStars = () => {
+const ShootingStars: React.FC = () => {
+  const stars = useMemo(() => {
+    return Array.from({ length: 10 }).map(() => new THREE.Vector3(
+      Math.random() * 100 - 50,
+      Math.random() * 50 + 20,
+      Math.random() * 100 - 50
+    ));
+  }, []);
+
   return (
     <>
-      {Array.from({ length: 10 }).map((_, i) => (
-        <ShootingStar key={i} />
+      {stars.map((position, i) => (
+        <ShootingStar key={i} startPosition={position} />
       ))}
     </>
   );
 };
 
 // Add BackgroundMusic component
-const BackgroundMusic = () => {
+const BackgroundMusic: React.FC = () => {
   const audioRef = useRef<HTMLAudioElement | null>(null);
 
   useEffect(() => {
     if (audioRef.current) {
       audioRef.current.loop = true;
-      audioRef.current.volume = 0.3; // Set volume to 30%
+      audioRef.current.volume = 0.3;
       audioRef.current.play().catch(error => {
         console.log("Audio playback failed:", error);
       });
@@ -688,7 +536,11 @@ const BackgroundMusic = () => {
 };
 
 // Navigation Guide Component
-const NavigationGuide = ({ onClose }: { onClose: () => void }) => {
+interface NavigationGuideProps {
+  onClose: () => void;
+}
+
+const NavigationGuide: React.FC<NavigationGuideProps> = ({ onClose }) => {
   return (
     <div
       className="fixed top-4 left-4 z-50"
@@ -897,7 +749,6 @@ const Home: NextPage = () => {
           <ambientLight intensity={2} />
           <pointLight position={[10, 10, 10]} intensity={1} />
 
-          {/* Add new visual elements */}
           <ShootingStars />
 
           <RotatingSun rotationSpeed={0.2} />
@@ -921,7 +772,7 @@ const Home: NextPage = () => {
           </RotatingPlanet>
           <RotatingPlanet rotationSpeed={1} revolutionSpeed={0.08} orbitDistance={48} planetName="Saturn" Linkforopen="https://github.com/hellspit">
             <group rotation={[0,100,50]}>
-              <Saturn />0
+              <Saturn />
             </group>
           </RotatingPlanet>
           <RotatingPlanet rotationSpeed={-1} revolutionSpeed={0.06} orbitDistance={58} planetName="Uranus" Linkforopen="mailto:anuj.dubey.dev@gmail.com">
@@ -936,7 +787,7 @@ const Home: NextPage = () => {
         </ErrorBoundary>
       </Canvas>
       {camera && <RecenterButton camera={camera} />}
-      <InfoButton onMenuToggle={setShowNavGuide} />
+      <InfoButton onNavClose={() => setShowNavGuide(false)} onNavShow={() => setShowNavGuide(true)} />
       {showFlashMessage && (
         <FlashMessage onClose={() => setShowFlashMessage(false)} />
       )}

@@ -3,7 +3,7 @@ import { useGLTF, OrbitControls } from "@react-three/drei";
 import * as THREE from "three";
 
 interface EarthProps {
-  onClick: () => void;
+  onClick?: () => void;
 }
 
 const Earth: React.FC<EarthProps> = ({ onClick }) => {
@@ -11,7 +11,9 @@ const Earth: React.FC<EarthProps> = ({ onClick }) => {
 
   const handleClick = (event: any) => {
     event.stopPropagation();
-    onClick();
+    if (onClick) {
+      onClick();
+    }
   };
 
   return (
