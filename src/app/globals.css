@@ -215,6 +215,66 @@ body {
   overflow: hidden;
 }
 
+/* Add shine effect container */
+.flash-message::after {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: linear-gradient(
+    45deg,
+    transparent 0%,
+    rgba(0, 247, 255, 0.1) 45%,
+    rgba(0, 247, 255, 0.2) 50%,
+    rgba(0, 247, 255, 0.1) 55%,
+    transparent 100%
+  );
+  transform: rotate(45deg);
+  animation: shine 3s infinite;
+  pointer-events: none;
+}
+
+/* Add border glow animation */
+.flash-message::before {
+  content: '';
+  position: absolute;
+  top: -2px;
+  left: -2px;
+  right: -2px;
+  bottom: -2px;
+  border-radius: 17px;
+  background: #00f7ff;
+  z-index: -1;
+  opacity: 0.3;
+  animation: borderPulse 3s ease-in-out infinite;
+}
+
+@keyframes shine {
+  0% {
+    transform: translateX(-100%) rotate(45deg);
+  }
+  100% {
+    transform: translateX(100%) rotate(45deg);
+  }
+}
+
+@keyframes borderPulse {
+  0% {
+    opacity: 0.3;
+    box-shadow: 0 0 20px rgba(0, 247, 255, 0.3);
+  }
+  50% {
+    opacity: 0.5;
+    box-shadow: 0 0 30px rgba(0, 247, 255, 0.5);
+  }
+  100% {
+    opacity: 0.3;
+    box-shadow: 0 0 20px rgba(0, 247, 255, 0.3);
+  }
+}
+
 .flash-message-content {
   display: flex;
   gap: 30px;
@@ -226,6 +286,32 @@ body {
   display: flex;
   justify-content: center;
   align-items: center;
+  position: relative;
+}
+
+.flash-message-left::before {
+  content: '';
+  position: absolute;
+  width: 100%;
+  height: 100%;
+  background: radial-gradient(circle at center, rgba(0, 247, 255, 0.2) 0%, transparent 70%);
+  animation: pulseGlow 2s ease-in-out infinite;
+  pointer-events: none;
+}
+
+@keyframes pulseGlow {
+  0% {
+    opacity: 0.3;
+    transform: scale(1);
+  }
+  50% {
+    opacity: 0.5;
+    transform: scale(1.1);
+  }
+  100% {
+    opacity: 0.3;
+    transform: scale(1);
+  }
 }
 
 .flash-message-right {
@@ -263,6 +349,28 @@ body {
   background: rgba(0, 247, 255, 0.1);
   border-radius: 10px;
   border: 1px solid rgba(0, 247, 255, 0.3);
+  position: relative;
+  overflow: hidden;
+}
+
+.info-section::after {
+  content: '';
+  position: absolute;
+  top: -50%;
+  left: -50%;
+  width: 200%;
+  height: 200%;
+  background: linear-gradient(
+    45deg,
+    transparent 0%,
+    rgba(0, 247, 255, 0.05) 45%,
+    rgba(0, 247, 255, 0.1) 50%,
+    rgba(0, 247, 255, 0.05) 55%,
+    transparent 100%
+  );
+  transform: rotate(45deg);
+  animation: shine 4s infinite;
+  pointer-events: none;
 }
 
 .info-section h3 {
@@ -520,6 +628,6 @@ body {
 
 .flash-message .close-button:hover::before,
 .flash-message .close-button:hover::after {
-  background-color: #ffffff;
+  background-color: #00f7ff;
   box-shadow: 0 0 10px rgba(0, 247, 255, 0.8);
 }

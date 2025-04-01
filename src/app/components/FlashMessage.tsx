@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 
 interface FlashMessageProps {
   onClose: () => void;
@@ -6,14 +6,6 @@ interface FlashMessageProps {
 
 const FlashMessage: React.FC<FlashMessageProps> = ({ onClose }) => {
   const [isClosing, setIsClosing] = useState(false);
-
-  useEffect(() => {
-    const timer = setTimeout(() => {
-      handleClose();
-    }, 8000);
-
-    return () => clearTimeout(timer);
-  }, []);
 
   const handleClose = () => {
     setIsClosing(true);
