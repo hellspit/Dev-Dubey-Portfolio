@@ -193,3 +193,333 @@ body {
     right: 2px;
   }
 }
+
+/* Flash Message Styles */
+.flash-message {
+  position: fixed;
+  top: 50%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  background: rgba(0, 0, 0, 0.95);
+  border: 2px solid #00f7ff;
+  border-radius: 15px;
+  padding: 30px;
+  color: white;
+  text-align: center;
+  z-index: 1000;
+  animation: spaceAppear 1.2s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+  box-shadow: 0 0 30px rgba(0, 247, 255, 0.3);
+  backdrop-filter: blur(10px);
+  min-width: 600px;
+  max-width: 800px;
+  overflow: hidden;
+}
+
+.flash-message-content {
+  display: flex;
+  gap: 30px;
+  align-items: center;
+}
+
+.flash-message-left {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.flash-message-right {
+  flex: 1;
+  text-align: left;
+  padding: 20px;
+}
+
+.flash-message img {
+  width: 250px;
+  height: 250px;
+  border-radius: 50%;
+  border: 3px solid #00f7ff;
+  box-shadow: 0 0 20px rgba(0, 247, 255, 0.5);
+  animation: photoAppear 1.5s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+  opacity: 0;
+  transform: scale(0.5);
+  position: relative;
+}
+
+.flash-message h2 {
+  font-size: 32px;
+  margin: 0 0 20px 0;
+  color: #00f7ff;
+  text-shadow: 0 0 10px rgba(0, 247, 255, 0.5);
+  animation: nameAppear 0.8s cubic-bezier(0.4, 0, 0.2, 1) forwards 0.5s;
+  opacity: 0;
+  transform: translateY(20px);
+  position: relative;
+}
+
+.info-section {
+  margin-top: 20px;
+  padding: 20px;
+  background: rgba(0, 247, 255, 0.1);
+  border-radius: 10px;
+  border: 1px solid rgba(0, 247, 255, 0.3);
+}
+
+.info-section h3 {
+  color: #00f7ff;
+  font-size: 24px;
+  margin-bottom: 15px;
+  text-shadow: 0 0 5px rgba(0, 247, 255, 0.3);
+}
+
+.college-name {
+  font-size: 18px;
+  margin: 10px 0;
+  color: #ffffff;
+  line-height: 1.4;
+}
+
+.year {
+  font-size: 16px;
+  color: #00f7ff;
+  margin: 5px 0;
+}
+
+/* Mobile Responsive Styles for Flash Message */
+@media (max-width: 768px) {
+  .flash-message {
+    min-width: 90vw;
+    max-width: 90vw;
+    padding: 20px;
+  }
+
+  .flash-message-content {
+    flex-direction: column;
+    gap: 20px;
+  }
+
+  .flash-message img {
+    width: 200px;
+    height: 200px;
+  }
+
+  .flash-message-right {
+    text-align: center;
+    padding: 10px;
+  }
+
+  .info-section {
+    padding: 15px;
+  }
+}
+
+@keyframes spaceAppear {
+  0% {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0.3) rotate(-15deg);
+    filter: blur(20px);
+  }
+  50% {
+    transform: translate(-50%, -50%) scale(1.1) rotate(5deg);
+    filter: blur(5px);
+  }
+  100% {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1) rotate(0);
+    filter: blur(0);
+  }
+}
+
+@keyframes photoAppear {
+  0% {
+    opacity: 0;
+    transform: scale(0.5);
+    filter: blur(10px);
+  }
+  50% {
+    transform: scale(1.2);
+    filter: blur(5px);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1);
+    filter: blur(0);
+  }
+}
+
+@keyframes nameAppear {
+  0% {
+    opacity: 0;
+    transform: translateY(30px) scale(0.8);
+    filter: blur(5px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    filter: blur(0);
+  }
+}
+
+@keyframes buttonAppear {
+  0% {
+    opacity: 0;
+    transform: scale(0) rotate(-180deg);
+  }
+  100% {
+    opacity: 1;
+    transform: scale(1) rotate(0);
+  }
+}
+
+@keyframes shimmer {
+  0% {
+    transform: translateX(-100%);
+  }
+  100% {
+    transform: translateX(100%);
+  }
+}
+
+@keyframes pulseRing {
+  0% {
+    transform: scale(1);
+    opacity: 1;
+  }
+  100% {
+    transform: scale(1.2);
+    opacity: 0;
+  }
+}
+
+@keyframes underlineAppear {
+  0% {
+    width: 0;
+  }
+  100% {
+    width: 80%;
+  }
+}
+
+@keyframes spaceDisappear {
+  0% {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1) rotate(0);
+    filter: blur(0);
+  }
+  50% {
+    opacity: 0.5;
+    transform: translate(-50%, -50%) scale(1.2) rotate(15deg);
+    filter: blur(5px);
+  }
+  100% {
+    opacity: 0;
+    transform: translate(-50%, -50%) scale(0.3) rotate(30deg);
+    filter: blur(20px);
+  }
+}
+
+@keyframes contentDisappear {
+  0% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(0.8);
+  }
+}
+
+@keyframes closeButtonDisappear {
+  0% {
+    opacity: 1;
+    transform: scale(1) rotate(0);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(0.5) rotate(180deg);
+  }
+}
+
+.flash-message.animate-spaceDisappear .flash-message-content {
+  animation: contentDisappear 0.8s ease forwards;
+}
+
+.flash-message.animate-spaceDisappear .close-button {
+  animation: closeButtonDisappear 0.8s ease forwards;
+}
+
+.flash-message.animate-spaceDisappear::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  background: radial-gradient(circle at center, rgba(0, 247, 255, 0.2) 0%, transparent 70%);
+  animation: glowDisappear 0.8s ease forwards;
+  pointer-events: none;
+}
+
+@keyframes glowDisappear {
+  0% {
+    opacity: 1;
+    transform: scale(1);
+  }
+  100% {
+    opacity: 0;
+    transform: scale(1.5);
+  }
+}
+
+.flash-message .close-button {
+  position: absolute;
+  top: 20px;
+  right: 20px;
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  background: rgba(0, 247, 255, 0.1);
+  border: 2px solid #00f7ff;
+  color: #00f7ff;
+  font-size: 28px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.3s ease;
+  animation: buttonAppear 0.5s cubic-bezier(0.4, 0, 0.2, 1) forwards 0.8s;
+  opacity: 0;
+  transform: scale(0);
+  z-index: 1001;
+  box-shadow: 0 0 15px rgba(0, 247, 255, 0.2);
+}
+
+.flash-message .close-button:hover {
+  background: rgba(0, 247, 255, 0.2);
+  transform: rotate(180deg) scale(1.1);
+  box-shadow: 0 0 25px rgba(0, 247, 255, 0.7);
+}
+
+.flash-message .close-button::before,
+.flash-message .close-button::after {
+  content: '';
+  position: absolute;
+  width: 20px;
+  height: 2px;
+  background-color: #00f7ff;
+  transition: all 0.3s ease;
+}
+
+.flash-message .close-button::before {
+  transform: rotate(45deg);
+}
+
+.flash-message .close-button::after {
+  transform: rotate(-45deg);
+}
+
+.flash-message .close-button:hover::before,
+.flash-message .close-button:hover::after {
+  background-color: #ffffff;
+  box-shadow: 0 0 10px rgba(0, 247, 255, 0.8);
+}

@@ -14,6 +14,7 @@ import {
 import { Suspense, useRef, ReactNode, useMemo, useEffect, useState } from "react";
 import type { NextPage } from "next";
 import dynamic from 'next/dynamic';
+import FlashMessage from './components/FlashMessage';
 
 // Error boundary component
 const ErrorBoundary = ({ children }: { children: ReactNode }) => {
@@ -184,7 +185,7 @@ function InfoButton() {
                 <div className="scroll-text">
                   <div className="scroll-text-content text-sm text-white">
                     <span className="text-red-500">●</span>
-                    <span>Mars - LinkedIn Profile</span>
+                    <span>Mars - LinkedIn</span>
                   </div>
                   <div className="scroll-text-content text-sm text-white">
                     <span className="text-yellow-500">●</span>
@@ -455,6 +456,7 @@ const Home: NextPage = () => {
   const controlsRef = useRef<any>(null);
   const [showIntro, setShowIntro] = useState(true);
   const [camera, setCamera] = useState<THREE.Camera | null>(null);
+  const [showFlashMessage, setShowFlashMessage] = useState(false);
 
   const handleNext = () => {
     setShowIntro(false);
@@ -490,7 +492,7 @@ const Home: NextPage = () => {
           </RotatingPlanet>
           <RotatingPlanet rotationSpeed={1} revolutionSpeed={0.3} orbitDistance={18} planetName="Earth">
             <group position={[0,2,0]}>
-              <Earth />
+              <Earth onClick={() => setShowFlashMessage(true)} />
             </group>
           </RotatingPlanet>
           <RotatingPlanet rotationSpeed={1} revolutionSpeed={0.2} orbitDistance={25} planetName="Mars" Linkforopen="https://www.linkedin.com/in/anuj-dubey-dev/">
@@ -517,12 +519,14 @@ const Home: NextPage = () => {
       </Canvas>
       {camera && <RecenterButton camera={camera} />}
       <InfoButton />
+      {showFlashMessage && (
+        <FlashMessage onClose={() => setShowFlashMessage(false)} />
+      )}
     </div>
   );
 };
 
 export default Home;
-
 
 
 
