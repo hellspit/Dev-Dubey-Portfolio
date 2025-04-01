@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 
+
 interface FlashMessageProps {
   onClose: () => void;
 }
@@ -15,12 +16,28 @@ const FlashMessage: React.FC<FlashMessageProps> = ({ onClose }) => {
   };
 
   return (
-    <div className={`flash-message ${isClosing ? 'animate-spaceDisappear' : ''}`}>
+    <div 
+      className={`flash-message ${isClosing ? 'animate-spaceDisappear' : ''}`}
+      style={{
+        position: 'fixed',
+        top: '50%',
+        left: '50%',
+        transform: 'translate(-50%, -50%)',
+        zIndex: 99999,
+        pointerEvents: 'auto',
+      }}
+    >
       <button 
         className="close-button" 
         onClick={handleClose} 
         aria-label="Close"
         disabled={isClosing}
+        style={{
+          position: 'absolute',
+          top: '20px',
+          right: '20px',
+          zIndex: 100000,
+        }}
       />
       <div className="flash-message-content">
         <div className="flash-message-left">

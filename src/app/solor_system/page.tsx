@@ -908,7 +908,10 @@ const Home: NextPage = () => {
             <Venus />
           </RotatingPlanet>
           <RotatingPlanet rotationSpeed={1} revolutionSpeed={0.3} orbitDistance={18} planetName="Earth">
-            <Earth onClick={() => setShowFlashMessage(true)} />
+            <Earth onClick={() => {
+              setShowFlashMessage(true);
+              setShowNavGuide(false);
+            }} />
           </RotatingPlanet>
           <RotatingPlanet rotationSpeed={1} revolutionSpeed={0.2} orbitDistance={25} planetName="Mars" Linkforopen="https://www.linkedin.com/in/anuj-dubey-dev/">
             <Mars />
