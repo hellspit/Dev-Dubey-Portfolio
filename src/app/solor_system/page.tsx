@@ -688,7 +688,7 @@ const BackgroundMusic = () => {
 };
 
 // Navigation Guide Component
-const NavigationGuide = () => {
+const NavigationGuide = ({ onClose }: { onClose: () => void }) => {
   return (
     <div
       className="fixed top-4 left-4 z-50"
@@ -714,8 +714,46 @@ const NavigationGuide = () => {
         animation: "fadeIn 0.5s ease-out"
       }}
     >
+      <button
+        onClick={onClose}
+        className="close-button"
+        style={{
+          position: "absolute",
+          top: "8px",
+          right: "8px",
+          background: "transparent",
+          border: "1px solid rgba(0, 247, 255, 0.4)",
+          color: "#00f7ff",
+          fontSize: "18px",
+          width: "24px",
+          height: "24px",
+          display: "flex",
+          alignItems: "center",
+          justifyContent: "center",
+          borderRadius: "50%",
+          cursor: "pointer",
+          transition: "all 0.2s ease",
+          boxShadow: "0 0 10px rgba(0, 247, 255, 0.2)",
+          zIndex: 10,
+        }}
+        onMouseOver={(e) => {
+          e.currentTarget.style.transform = "rotate(90deg) scale(1.1)";
+          e.currentTarget.style.boxShadow = "0 0 15px rgba(0, 247, 255, 0.4)";
+          e.currentTarget.style.border = "1px solid rgba(0, 247, 255, 0.8)";
+        }}
+        onMouseOut={(e) => {
+          e.currentTarget.style.transform = "rotate(0deg) scale(1)";
+          e.currentTarget.style.boxShadow = "0 0 10px rgba(0, 247, 255, 0.2)";
+          e.currentTarget.style.border = "1px solid rgba(0, 247, 255, 0.4)";
+        }}
+      >
+        ×
+      </button>
       <style>
         {`
+          .close-button:hover {
+            text-shadow: 0 0 8px rgba(0, 247, 255, 0.8);
+          }
           @keyframes fadeIn {
             from {
               opacity: 0;
@@ -851,7 +889,7 @@ const Home: NextPage = () => {
       }}
     >
       <BackgroundMusic />
-      {showNavGuide && <NavigationGuide />}
+      {showNavGuide && <NavigationGuide onClose={() => setShowNavGuide(false)} />}
       <Canvas camera={{ position: [0, 10, 20], fov: 60 }}>
         <OrbitControls ref={controlsRef} />
         <KeyboardControls controlsRef={controlsRef} />
