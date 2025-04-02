@@ -256,85 +256,55 @@ body {
   top: 50%;
   left: 50%;
   transform: translate(-50%, -50%);
-  background: rgba(0, 0, 0, 0.95);
+  background: rgba(8, 12, 16, 0.95);
   border: 2px solid #00f7ff;
-  border-radius: 15px;
-  padding: 30px;
+  border-radius: 20px;
+  padding: 40px;
   color: white;
   text-align: center;
   z-index: 1000;
-  animation: spaceAppear 0.6s cubic-bezier(0.4, 0, 0.2, 1) forwards;
-  box-shadow: 0 0 30px rgba(0, 247, 255, 0.3);
-  backdrop-filter: blur(10px);
+  animation: spaceAppear 0.8s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+  box-shadow: 
+    0 0 30px rgba(0, 247, 255, 0.3),
+    0 0 60px rgba(0, 247, 255, 0.2),
+    0 0 90px rgba(0, 247, 255, 0.1);
+  backdrop-filter: blur(12px);
   min-width: 600px;
   max-width: 800px;
   overflow: hidden;
+  transform-style: preserve-3d;
+  perspective: 1000px;
 }
 
-/* Add shine effect container */
-.flash-message::after {
-  content: '';
-  position: absolute;
-  top: -50%;
-  left: -50%;
-  width: 200%;
-  height: 200%;
-  background: linear-gradient(
-    45deg,
-    transparent 0%,
-    rgba(0, 247, 255, 0.1) 45%,
-    rgba(0, 247, 255, 0.2) 50%,
-    rgba(0, 247, 255, 0.1) 55%,
-    transparent 100%
-  );
-  transform: rotate(45deg);
-  animation: shine 3s infinite;
-  pointer-events: none;
-}
-
-/* Add border glow animation */
 .flash-message::before {
   content: '';
   position: absolute;
-  top: -2px;
-  left: -2px;
-  right: -2px;
-  bottom: -2px;
-  border-radius: 17px;
-  background: #00f7ff;
+  inset: -2px;
+  background: linear-gradient(45deg, #00f7ff, #00ffaa, #00f7ff);
+  border-radius: 22px;
   z-index: -1;
-  opacity: 0.3;
-  animation: borderPulse 3s ease-in-out infinite;
+  animation: borderGlow 3s linear infinite;
+  opacity: 0.5;
 }
 
-@keyframes shine {
+@keyframes borderGlow {
   0% {
-    transform: translateX(-100%) rotate(45deg);
-  }
-  100% {
-    transform: translateX(100%) rotate(45deg);
-  }
-}
-
-@keyframes borderPulse {
-  0% {
-    opacity: 0.3;
-    box-shadow: 0 0 20px rgba(0, 247, 255, 0.3);
+    filter: blur(5px) brightness(1);
   }
   50% {
-    opacity: 0.5;
-    box-shadow: 0 0 30px rgba(0, 247, 255, 0.5);
+    filter: blur(8px) brightness(1.2);
   }
   100% {
-    opacity: 0.3;
-    box-shadow: 0 0 20px rgba(0, 247, 255, 0.3);
+    filter: blur(5px) brightness(1);
   }
 }
 
 .flash-message-content {
   display: flex;
-  gap: 30px;
+  gap: 40px;
   align-items: center;
+  position: relative;
+  z-index: 1;
 }
 
 .flash-message-left {
@@ -343,110 +313,149 @@ body {
   justify-content: center;
   align-items: center;
   position: relative;
+  transform-style: preserve-3d;
+  transition: transform 0.3s ease;
 }
 
-.flash-message-left::before {
-  content: '';
-  position: absolute;
-  width: 100%;
-  height: 100%;
-  background: radial-gradient(circle at center, rgba(0, 247, 255, 0.2) 0%, transparent 70%);
-  animation: pulseGlow 2s ease-in-out infinite;
-  pointer-events: none;
+.flash-message-left:hover {
+  transform: translateZ(20px) rotateY(5deg);
 }
 
-@keyframes pulseGlow {
-  0% {
-    opacity: 0.3;
-    transform: scale(1);
-  }
-  50% {
-    opacity: 0.5;
-    transform: scale(1.1);
-  }
-  100% {
-    opacity: 0.3;
-    transform: scale(1);
-  }
+.flash-message img {
+  width: 280px;
+  height: 280px;
+  border-radius: 50%;
+  border: 4px solid #00f7ff;
+  box-shadow: 
+    0 0 20px rgba(0, 247, 255, 0.5),
+    0 0 40px rgba(0, 247, 255, 0.3),
+    0 0 60px rgba(0, 247, 255, 0.1);
+  animation: photoAppear 1s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+  opacity: 0;
+  transform: scale(0.5);
+  position: relative;
+  transition: all 0.3s ease;
+}
+
+.flash-message img:hover {
+  transform: scale(1.05);
+  box-shadow: 
+    0 0 30px rgba(0, 247, 255, 0.7),
+    0 0 60px rgba(0, 247, 255, 0.5),
+    0 0 90px rgba(0, 247, 255, 0.3);
 }
 
 .flash-message-right {
   flex: 1;
   text-align: left;
   padding: 20px;
-}
-
-.flash-message img {
-  width: 250px;
-  height: 250px;
-  border-radius: 50%;
-  border: 3px solid #00f7ff;
-  box-shadow: 0 0 20px rgba(0, 247, 255, 0.5);
-  animation: photoAppear 0.8s cubic-bezier(0.4, 0, 0.2, 1) forwards;
-  opacity: 0;
-  transform: scale(0.5);
   position: relative;
+  z-index: 2;
 }
 
 .flash-message h2 {
-  font-size: 32px;
-  margin: 0 0 20px 0;
+  font-size: 36px;
+  margin: 0 0 25px 0;
   color: #00f7ff;
-  text-shadow: 0 0 10px rgba(0, 247, 255, 0.5);
-  animation: nameAppear 0.4s cubic-bezier(0.4, 0, 0.2, 1) forwards 0.3s;
+  text-shadow: 
+    0 0 10px rgba(0, 247, 255, 0.5),
+    0 0 20px rgba(0, 247, 255, 0.3);
+  animation: nameAppear 0.6s cubic-bezier(0.4, 0, 0.2, 1) forwards 0.3s;
   opacity: 0;
   transform: translateY(20px);
   position: relative;
+  font-weight: 600;
+  letter-spacing: 1px;
 }
 
 .info-section {
-  margin-top: 20px;
-  padding: 20px;
-  background: rgba(0, 247, 255, 0.1);
-  border-radius: 10px;
+  margin-top: 25px;
+  padding: 25px;
+  background: rgba(0, 247, 255, 0.05);
+  border-radius: 15px;
   border: 1px solid rgba(0, 247, 255, 0.3);
   position: relative;
   overflow: hidden;
+  backdrop-filter: blur(5px);
+  transition: all 0.3s ease;
 }
 
-.info-section::after {
-  content: '';
-  position: absolute;
-  top: -50%;
-  left: -50%;
-  width: 200%;
-  height: 200%;
-  background: linear-gradient(
-    45deg,
-    transparent 0%,
-    rgba(0, 247, 255, 0.05) 45%,
-    rgba(0, 247, 255, 0.1) 50%,
-    rgba(0, 247, 255, 0.05) 55%,
-    transparent 100%
-  );
-  transform: rotate(45deg);
-  animation: shine 4s infinite;
-  pointer-events: none;
+.info-section:hover {
+  background: rgba(0, 247, 255, 0.08);
+  transform: translateY(-5px);
+  box-shadow: 
+    0 10px 30px rgba(0, 247, 255, 0.1),
+    0 0 20px rgba(0, 247, 255, 0.05);
 }
 
 .info-section h3 {
   color: #00f7ff;
-  font-size: 24px;
-  margin-bottom: 15px;
-  text-shadow: 0 0 5px rgba(0, 247, 255, 0.3);
+  font-size: 26px;
+  margin-bottom: 20px;
+  text-shadow: 0 0 8px rgba(0, 247, 255, 0.4);
+  position: relative;
+  display: inline-block;
+}
+
+.info-section h3::after {
+  content: '';
+  position: absolute;
+  bottom: -8px;
+  left: 0;
+  width: 60px;
+  height: 3px;
+  background: linear-gradient(90deg, #00f7ff, transparent);
+  border-radius: 2px;
 }
 
 .college-name {
-  font-size: 18px;
-  margin: 10px 0;
+  font-size: 20px;
+  margin: 15px 0;
   color: #ffffff;
-  line-height: 1.4;
+  line-height: 1.5;
+  font-weight: 500;
+  text-shadow: 0 0 5px rgba(255, 255, 255, 0.3);
 }
 
 .year {
-  font-size: 16px;
+  font-size: 18px;
   color: #00f7ff;
-  margin: 5px 0;
+  margin: 8px 0;
+  font-weight: 500;
+  text-shadow: 0 0 8px rgba(0, 247, 255, 0.4);
+}
+
+.flash-message .close-button {
+  position: absolute;
+  top: 25px;
+  right: 25px;
+  width: 45px;
+  height: 45px;
+  border-radius: 50%;
+  background: rgba(0, 247, 255, 0.1);
+  border: 2px solid #00f7ff;
+  color: #00f7ff;
+  font-size: 28px;
+  cursor: pointer;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  transition: all 0.4s cubic-bezier(0.4, 0, 0.2, 1);
+  animation: buttonAppear 0.4s cubic-bezier(0.4, 0, 0.2, 1) forwards 0.5s;
+  opacity: 0;
+  transform: scale(0);
+  z-index: 1001;
+  box-shadow: 
+    0 0 15px rgba(0, 247, 255, 0.2),
+    0 0 30px rgba(0, 247, 255, 0.1);
+}
+
+.flash-message .close-button:hover {
+  background: rgba(0, 247, 255, 0.2);
+  transform: rotate(180deg) scale(1.1);
+  box-shadow: 
+    0 0 25px rgba(0, 247, 255, 0.7),
+    0 0 50px rgba(0, 247, 255, 0.4);
 }
 
 /* Mobile Responsive Styles for Flash Message */
@@ -454,26 +463,51 @@ body {
   .flash-message {
     min-width: 90vw;
     max-width: 90vw;
-    padding: 20px;
+    padding: 25px;
+    margin: 20px;
   }
 
   .flash-message-content {
     flex-direction: column;
-    gap: 20px;
+    gap: 25px;
   }
 
   .flash-message img {
-    width: 200px;
-    height: 200px;
+    width: 220px;
+    height: 220px;
   }
 
   .flash-message-right {
     text-align: center;
-    padding: 10px;
+    padding: 15px;
   }
 
   .info-section {
-    padding: 15px;
+    padding: 20px;
+  }
+
+  .flash-message h2 {
+    font-size: 28px;
+  }
+
+  .info-section h3 {
+    font-size: 22px;
+  }
+
+  .college-name {
+    font-size: 16px;
+  }
+
+  .year {
+    font-size: 14px;
+  }
+
+  .flash-message .close-button {
+    top: 15px;
+    right: 15px;
+    width: 35px;
+    height: 35px;
+    font-size: 20px;
   }
 }
 
