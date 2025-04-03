@@ -15,6 +15,7 @@ import React, { Suspense, useRef, ReactNode, useMemo, useEffect, useState } from
 import type { NextPage } from "next";
 import dynamic from 'next/dynamic';
 import FlashMessage from './components/FlashMessage';
+import MercuryCard from './components/MercuryCard';
 
 // Type declarations for dynamic imports
 interface PlanetProps {
@@ -910,6 +911,7 @@ const Home: NextPage = () => {
   const [showIntro, setShowIntro] = useState(true);
   const [camera, setCamera] = useState<THREE.Camera | null>(null);
   const [showFlashMessage, setShowFlashMessage] = useState(false);
+  const [showMercuryCard, setShowMercuryCard] = useState(false);
   const [showNavGuide, setShowNavGuide] = useState(true);
 
   const handleNext = () => {
@@ -939,7 +941,10 @@ const Home: NextPage = () => {
 
           <RotatingSun rotationSpeed={0.2} />
           <RotatingPlanet rotationSpeed={1} revolutionSpeed={0.5} orbitDistance={8} planetName="Mercury">
-            <Mercury />
+            <Mercury onClick={() => {
+              setShowMercuryCard(true);
+              setShowNavGuide(false);
+            }} />
           </RotatingPlanet>
           <RotatingPlanet rotationSpeed={-1} revolutionSpeed={0.4} orbitDistance={12} planetName="Venus">
             <Venus />
@@ -977,6 +982,12 @@ const Home: NextPage = () => {
       {showFlashMessage && (
         <FlashMessage onClose={() => {
           setShowFlashMessage(false);
+          setShowNavGuide(true);
+        }} />
+      )}
+      {showMercuryCard && (
+        <MercuryCard onClose={() => {
+          setShowMercuryCard(false);
           setShowNavGuide(true);
         }} />
       )}
