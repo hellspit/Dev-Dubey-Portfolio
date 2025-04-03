@@ -391,28 +391,28 @@ function InfoButton({ onNavClose, onNavShow }: InfoButtonProps) {
                 }}>Navigation Points</h4>
                 <div className="space-y-2">
                   <div className="menu-item" style={{ padding: "8px", borderRadius: "6px" }}>
-                    <span style={{ color: "#00aaff", marginRight: "8px" }}>●</span>
+                    <span style={{ color: "#00f7ff" }}>●</span>
+                    <span style={{ color: "#e5e7eb" }}>Mercury - Certificates</span>
+                  </div>
+                  <div className="menu-item" style={{ padding: "8px", borderRadius: "6px" }}>
+                    <span style={{ color: "#00aaff" }}>●</span>
                     <span style={{ color: "#e5e7eb" }}>Earth - Personal info</span>
                   </div>
                   <div className="menu-item" style={{ padding: "8px", borderRadius: "6px" }}>
-                    <span style={{ color: "#ff4444", marginRight: "8px" }}>●</span>
+                    <span style={{ color: "#ff4444" }}>●</span>
                     <span style={{ color: "#e5e7eb" }}>Mars - LinkedIn</span>
                   </div>
                   <div className="menu-item" style={{ padding: "8px", borderRadius: "6px" }}>
-                    <span style={{ color: "#ffaa00", marginRight: "8px" }}>●</span>
+                    <span style={{ color: "#ffaa00" }}>●</span>
                     <span style={{ color: "#e5e7eb" }}>Jupiter - Resume</span>
                   </div>
                   <div className="menu-item" style={{ padding: "8px", borderRadius: "6px" }}>
-                    <span style={{ color: "#ff8800", marginRight: "8px" }}>●</span>
+                    <span style={{ color: "#ff8800" }}>●</span>
                     <span style={{ color: "#e5e7eb" }}>Saturn - GitHub Profile</span>
                   </div>
                   <div className="menu-item" style={{ padding: "8px", borderRadius: "6px" }}>
-                    <span style={{ color: "#00ffaa", marginRight: "8px" }}>●</span>
+                    <span style={{ color: "#00ffaa" }}>●</span>
                     <span style={{ color: "#e5e7eb" }}>Uranus - Contact</span>
-                  </div>
-                  <div className="menu-item" style={{ padding: "8px", borderRadius: "6px" }}>
-                    <span style={{ color: "#00f7ff", marginRight: "8px" }}>●</span>
-                    <span style={{ color: "#e5e7eb" }}>i - More Info</span>
                   </div>
                 </div>
               </div>
@@ -877,6 +877,10 @@ const NavigationGuide: React.FC<NavigationGuideProps> = ({ onClose }) => {
 
       <div className="nav-section">
         <div className="nav-item">
+          <span style={{ color: "#00f7ff" }}>●</span>
+          <span>Mercury - Certificates</span>
+        </div>
+        <div className="nav-item">
           <span style={{ color: "#00aaff" }}>●</span>
           <span>Earth - Personal info</span>
         </div>
@@ -895,10 +899,6 @@ const NavigationGuide: React.FC<NavigationGuideProps> = ({ onClose }) => {
         <div className="nav-item">
           <span style={{ color: "#00ffaa" }}>●</span>
           <span>Uranus - Contact</span>
-        </div>
-        <div className="nav-item">
-          <span style={{ color: "#00f7ff" }}>●</span>
-          <span>i - More Info</span>
         </div>
       </div>
     </div>
