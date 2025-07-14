@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useState } from 'react';
 
 interface TutorialFlashcardProps {
   title: string;
@@ -9,14 +9,34 @@ interface TutorialFlashcardProps {
 }
 
 const TutorialFlashcard: React.FC<TutorialFlashcardProps> = ({ title, content, onNext, onSkip, isLast }) => {
+  const [isExiting, setIsExiting] = useState(false);
+
+  const handleNext = () => {
+    if (isLast) {
+      setIsExiting(true);
+      setTimeout(() => {
+        onNext();
+      }, 600); // Increased animation duration
+    } else {
+      onNext();
+    }
+  };
+
+  const handleSkip = () => {
+    setIsExiting(true);
+    setTimeout(() => {
+      onSkip();
+    }, 600); // Increased animation duration
+  };
+
   return (
-    <div className="tutorial-overlay">
-      <div className="tutorial-flashcard">
+    <div className={`tutorial-overlay ${isExiting ? 'exiting' : ''}`}>
+      <div className={`tutorial-flashcard ${isExiting ? 'exiting' : ''}`}>
         <h4 className="tutorial-title">{title}</h4>
         <div className="tutorial-content">{content}</div>
         <div className="tutorial-actions">
-          <button className="tutorial-skip-btn" onClick={onSkip}>Skip</button>
-          <button className="tutorial-next-btn" onClick={onNext}>{isLast ? 'Finish' : 'Next'}</button>
+          <button className="tutorial-skip-btn" onClick={handleSkip}>Skip</button>
+          <button className="tutorial-next-btn" onClick={handleNext}>{isLast ? 'Finish' : 'Next'}</button>
         </div>
       </div>
       <style jsx>{`
@@ -29,6 +49,10 @@ const TutorialFlashcard: React.FC<TutorialFlashcardProps> = ({ title, content, o
           justify-content: center;
           background: rgba(10, 14, 24, 0.85);
           padding: 20px;
+          transition: opacity 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .tutorial-overlay.exiting {
+          opacity: 0;
         }
         .tutorial-flashcard {
           background: #23283b;
@@ -44,6 +68,11 @@ const TutorialFlashcard: React.FC<TutorialFlashcardProps> = ({ title, content, o
           animation: tutorial-pop 0.45s cubic-bezier(.68,-0.55,.27,1.55);
           font-size: 1.05rem;
           letter-spacing: 0.01em;
+          transition: transform 0.6s cubic-bezier(0.4, 0, 0.2, 1), opacity 0.6s cubic-bezier(0.4, 0, 0.2, 1);
+        }
+        .tutorial-flashcard.exiting {
+          transform: scale(0.9);
+          opacity: 0;
         }
         @keyframes tutorial-pop {
           0% { transform: scale(0.8); opacity: 0; }
