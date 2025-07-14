@@ -6,13 +6,12 @@ import {
   Stars,
   OrbitControls,
   Preload,
-  useProgress,
   Html,
   Line,
   Trail,
 } from "@react-three/drei";
-import React, { Suspense, useRef, ReactNode, useMemo, useEffect, useState } from "react";
-import type { NextPage } from "next";
+import './style.css';
+import React, { useRef, useMemo, useEffect, useState } from "react";
 import dynamic from 'next/dynamic';
 import FlashMessage from './components/FlashMessage';
 import MercuryCard from './components/MercuryCard';
@@ -24,14 +23,14 @@ interface PlanetProps {
 
 // Error boundary component
 interface ErrorBoundaryProps {
-  children: ReactNode;
+  children: React.ReactNode;
 }
 
 const ErrorBoundary: React.FC<ErrorBoundaryProps> = ({ children }) => {
   return (
-    <Suspense fallback={<Html center><div style={{ color: "white" }}>Loading...</div></Html>}>
+    <React.Suspense fallback={<Html center><div style={{ color: "white" }}>Loading...</div></Html>}>
       {children}
-    </Suspense>
+    </React.Suspense>
   );
 };
 
@@ -73,16 +72,6 @@ const Neptune = dynamic<PlanetProps>(() => import("./components/neptune"), {
   loading: () => <Html center><div style={{ color: "white" }}>Loading Neptune...</div></Html>
 });
 
-// Loader Component
-function Loader() {
-  const { progress } = useProgress();
-  return (
-    <Html center>
-      <div style={{ color: "white" }}>{progress.toFixed(2)}% loaded</div>
-    </Html>
-  );
-}
-
 // Recenter Button Component
 interface RecenterButtonProps {
   camera: THREE.Camera;
@@ -95,23 +84,11 @@ const RecenterButton: React.FC<RecenterButtonProps> = ({ camera }) => {
   };
 
   return (
-    <div
-      className="fixed bottom-4 left-4 z-50"
-      style={{
-        position: "fixed",
-        bottom: "20px",
-        left: "20px",
-        zIndex: 1000,
-      }}
-    >
+    <div className="fixed-bottom-left">
       <button
         onClick={recenterCamera}
         className="w-12 h-12 bg-gray-800 text-white rounded-full flex items-center justify-center shadow-lg hover:bg-gray-700"
-        style={{
-          border: "none",
-          cursor: "pointer",
-          fontSize: "20px",
-        }}
+        style={{ border: "none", cursor: "pointer", fontSize: "20px" }}
       >
         ⟳
       </button>
@@ -139,15 +116,7 @@ function InfoButton({ onNavClose, onNavShow }: InfoButtonProps) {
   };
 
   return (
-    <div
-      className="fixed bottom-4 left-20 z-50"
-      style={{
-        position: "fixed",
-        bottom: "20px",
-        left: "80px",
-        zIndex: 1000,
-      }}
-    >
+    <div className="fixed-bottom-left-80">
       {!showMenu && (
         <button
           onClick={handleMenuToggle}
@@ -172,134 +141,8 @@ function InfoButton({ onNavClose, onNavShow }: InfoButtonProps) {
       )}
 
       {showMenu && (
-        <div
-          className="fixed bottom-16 left-20 info-menu-container"
-          style={{
-            position: "fixed",
-            bottom: "16px",
-            left: "20px",
-            transform: "scale(1)",
-            transformOrigin: "bottom left",
-            transition: "all 0.3s cubic-bezier(0.4, 0, 0.2, 1)",
-            maxWidth: "300px",
-            width: "90vw",
-            maxHeight: "60vh",
-            opacity: 1,
-            visibility: "visible",
-            background: "rgba(8, 12, 16, 0.95)",
-            backdropFilter: "blur(12px)",
-            borderRadius: "12px",
-            border: "1px solid rgba(0, 247, 255, 0.8)",
-            boxShadow: `
-              0 0 20px rgba(0, 247, 255, 0.3),
-              0 0 40px rgba(0, 247, 255, 0.2),
-              0 0 60px rgba(0, 247, 255, 0.1),
-              inset 0 0 30px rgba(0, 247, 255, 0.05),
-              0 0 5px rgba(0, 247, 255, 1)
-            `,
-            padding: "16px",
-            overflowY: "auto",
-            overflowX: "hidden",
-            scrollbarWidth: "thin",
-            scrollbarColor: "rgba(0, 247, 255, 0.3) rgba(8, 12, 16, 0.95)"
-          }}
-        >
-          <style>
-            {`
-              .info-menu-container {
-                animation: slideIn 0.3s ease-out;
-              }
-
-              .info-menu-container::-webkit-scrollbar {
-                width: 3px;
-              }
-              
-              .info-menu-container::-webkit-scrollbar-track {
-                background: rgba(8, 12, 16, 0.95);
-                border-radius: 2px;
-              }
-              
-              .info-menu-container::-webkit-scrollbar-thumb {
-                background: rgba(0, 247, 255, 0.3);
-                border-radius: 2px;
-                box-shadow: 0 0 10px rgba(0, 247, 255, 0.5);
-              }
-              
-              .info-menu-container::-webkit-scrollbar-thumb:hover {
-                background: rgba(0, 247, 255, 0.5);
-              }
-
-              @keyframes slideIn {
-                from {
-                  opacity: 0;
-                  transform: translateY(20px) scale(0.95);
-                }
-                to {
-                  opacity: 1;
-                  transform: translateY(0) scale(1);
-                }
-              }
-
-              @keyframes neonPulse {
-                0% {
-                  box-shadow: 
-                    0 0 20px rgba(0, 247, 255, 0.3),
-                    0 0 40px rgba(0, 247, 255, 0.2),
-                    0 0 60px rgba(0, 247, 255, 0.1);
-                  border-color: rgba(0, 247, 255, 0.6);
-                }
-                50% {
-                  box-shadow: 
-                    0 0 25px rgba(0, 247, 255, 0.4),
-                    0 0 50px rgba(0, 247, 255, 0.3),
-                    0 0 75px rgba(0, 247, 255, 0.2);
-                  border-color: rgba(0, 247, 255, 0.8);
-                }
-                100% {
-                  box-shadow: 
-                    0 0 20px rgba(0, 247, 255, 0.3),
-                    0 0 40px rgba(0, 247, 255, 0.2),
-                    0 0 60px rgba(0, 247, 255, 0.1);
-                  border-color: rgba(0, 247, 255, 0.6);
-                }
-              }
-
-              .menu-section {
-                animation: neonPulse 3s infinite;
-                background: rgba(0, 247, 255, 0.03) !important;
-                border: 1px solid rgba(0, 247, 255, 0.3) !important;
-                box-shadow: 
-                  0 0 15px rgba(0, 247, 255, 0.2),
-                  0 0 30px rgba(0, 247, 255, 0.1),
-                  inset 0 0 20px rgba(0, 247, 255, 0.05);
-              }
-
-              .menu-item {
-                transition: all 0.2s ease;
-                border: 1px solid transparent;
-                position: relative;
-              }
-
-              .menu-item:hover {
-                background: rgba(0, 247, 255, 0.08);
-                border: 1px solid rgba(0, 247, 255, 0.4);
-                transform: translateX(5px);
-                box-shadow: 
-                  0 0 15px rgba(0, 247, 255, 0.2),
-                  0 0 30px rgba(0, 247, 255, 0.1);
-              }
-
-              @media (max-width: 768px) {
-                .info-menu-container {
-                  left: 10px;
-                  right: 10px;
-                  bottom: 80px;
-                  width: auto;
-                }
-              }
-            `}
-          </style>
-
+        <div className="fixed-bottom-16-left-20 info-menu-container">
+          {/* <style> blocks removed, now in style.css */}
           <div className="info-menu-content">
             <button
               onClick={handleMenuToggle}
@@ -336,127 +179,73 @@ function InfoButton({ onNavClose, onNavShow }: InfoButtonProps) {
             >
               ×
             </button>
-            <style>
-              {`
-                .close-button:hover {
-                  text-shadow: 0 0 8px rgba(0, 247, 255, 0.8);
-                }
-              `}
-            </style>
-            <div className="flex items-center mb-4" style={{
-              borderBottom: "1px solid rgba(0, 247, 255, 0.2)",
-              paddingBottom: "8px",
-              marginBottom: "12px"
-            }}>
+            <div className="flex items-center mb-4 info-menu-content-header">
               <div className="w-2 h-2 bg-[#00f7ff] rounded-full mr-2 animate-pulse"></div>
-              <h3 style={{
-                color: "#00f7ff",
-                fontSize: "1.1rem",
-                fontWeight: "600",
-                letterSpacing: "0.5px",
-                textShadow: "0 0 10px rgba(0, 247, 255, 0.5)"
-              }}>Space Explorer's Guide</h3>
+              <h3 className="info-menu-content-title">Space Explorer's Guide</h3>
             </div>
 
             <div className="space-y-4">
-              <div className="menu-section" style={{
-                padding: "10px",
-                borderRadius: "8px",
-              }}>
-                <h4 style={{
-                  color: "#00f7ff",
-                  fontSize: "0.95rem",
-                  fontWeight: "500",
-                  marginBottom: "8px"
-                }}>Mission Overview</h4>
-                <p style={{
-                  color: "#e5e7eb",
-                  lineHeight: "1.5",
-                  fontSize: "0.85rem"
-                }}>
+              <div className="menu-section menu-section-style">
+                <h4 style={{ color: "#00f7ff", fontSize: "0.95rem", fontWeight: 500, marginBottom: "8px" }}>Mission Overview</h4>
+                <p style={{ color: "#e5e7eb", lineHeight: "1.5", fontSize: "0.85rem" }}>
                   Welcome to my interactive solar system portfolio! Each celestial body represents a different aspect of my professional journey.
                   use headphones for better experience.
                 </p>
               </div>
 
-              <div className="menu-section" style={{
-                padding: "10px",
-                borderRadius: "8px",
-              }}>
-                <h4 style={{
-                  color: "#00f7ff",
-                  fontSize: "0.95rem",
-                  fontWeight: "500",
-                  marginBottom: "8px"
-                }}>Navigation Points</h4>
+              <div className="menu-section menu-section-style">
+                <h4 style={{ color: "#00f7ff", fontSize: "0.95rem", fontWeight: 500, marginBottom: "8px" }}>Navigation Points</h4>
                 <div className="space-y-2">
-                  <div className="menu-item" style={{ padding: "8px", borderRadius: "6px" }}>
+                  <div className="menu-item menu-item-style">
                     <span style={{ color: "#00f7ff" }}>●</span>
                     <span style={{ color: "#e5e7eb" }}>Mercury - Certificates</span>
                   </div>
-                  <div className="menu-item" style={{ padding: "8px", borderRadius: "6px" }}>
+                  <div className="menu-item menu-item-style">
                     <span style={{ color: "#00aaff" }}>●</span>
                     <span style={{ color: "#e5e7eb" }}>Earth - Personal info</span>
                   </div>
-                  <div className="menu-item" style={{ padding: "8px", borderRadius: "6px" }}>
+                  <div className="menu-item menu-item-style">
                     <span style={{ color: "#ff4444" }}>●</span>
                     <span style={{ color: "#e5e7eb" }}>Mars - LinkedIn</span>
                   </div>
-                  <div className="menu-item" style={{ padding: "8px", borderRadius: "6px" }}>
+                  <div className="menu-item menu-item-style">
                     <span style={{ color: "#ffaa00" }}>●</span>
                     <span style={{ color: "#e5e7eb" }}>Jupiter - Resume</span>
                   </div>
-                  <div className="menu-item" style={{ padding: "8px", borderRadius: "6px" }}>
+                  <div className="menu-item menu-item-style">
                     <span style={{ color: "#ff8800" }}>●</span>
                     <span style={{ color: "#e5e7eb" }}>Saturn - GitHub Profile</span>
                   </div>
-                  <div className="menu-item" style={{ padding: "8px", borderRadius: "6px" }}>
+                  <div className="menu-item menu-item-style">
                     <span style={{ color: "#00ffaa" }}>●</span>
                     <span style={{ color: "#e5e7eb" }}>Uranus - Contact</span>
                   </div>
                 </div>
               </div>
 
-              <div className="menu-section" style={{
-                padding: "10px",
-                borderRadius: "8px",
-              }}>
-                <h4 style={{
-                  color: "#00f7ff",
-                  fontSize: "0.95rem",
-                  fontWeight: "500",
-                  marginBottom: "8px"
-                }}>Mission Control</h4>
+              <div className="menu-section menu-section-style">
+                <h4 style={{ color: "#00f7ff", fontSize: "0.95rem", fontWeight: 500, marginBottom: "8px" }}>Mission Control</h4>
                 <div className="space-y-2">
-                  <p style={{ 
-                    color: "#e5e7eb", 
-                    fontSize: "0.85rem", 
-                    marginBottom: "6px" 
-                  }}>
+                  <p style={{ color: "#e5e7eb", fontSize: "0.85rem", marginBottom: "6px" }}>
                     Click on any planet to explore more about my professional journey.
                   </p>
-                  <div style={{ 
-                    color: "#00f7ff", 
-                    fontWeight: "500", 
-                    marginBottom: "6px",
-                    fontSize: "0.9rem"
-                  }}>
+                  <div style={{ color: "#00f7ff", fontWeight: 500, marginBottom: "6px", fontSize: "0.9rem" }}>
                     Navigation Controls:
                   </div>
                   <ul style={{ color: "#e5e7eb", fontSize: "0.85rem" }}>
-                    <li className="menu-item" style={{ padding: "4px 8px", borderRadius: "4px" }}>
+                    <li className="menu-item menu-item-style-sm">
                       <span style={{ color: "#00f7ff", marginRight: "8px" }}>W A S D</span>
                       - Move camera
                     </li>
-                    <li className="menu-item" style={{ padding: "4px 8px", borderRadius: "4px" }}>
+                    <li className="menu-item menu-item-style-sm">
                       <span style={{ color: "#00f7ff", marginRight: "8px" }}>Q/E</span>
                       - Move up/down
                     </li>
-                    <li className="menu-item" style={{ padding: "4px 8px", borderRadius: "4px" }}>
+                    <li className="menu-item menu-item-style-sm">
                       <span style={{ color: "#00f7ff", marginRight: "8px" }}>Mouse Scroll</span>
                       - Zoom in/out
                     </li>
-                    <li className="menu-item" style={{ padding: "4px 8px", borderRadius: "4px" }}>
+                    <li className="menu-item menu-item-style-sm">
                       <span style={{ color: "#00f7ff", marginRight: "8px" }}>Left Click + Drag</span>
                       - Rotate view
                     </li>
@@ -480,25 +269,14 @@ interface FloatingLabelProps {
 const FloatingLabel: React.FC<FloatingLabelProps> = ({ text, position }) => {
   return (
     <Html position={position} center>
-      <div style={{
-        background: 'rgba(0, 0, 0, 0.7)',
-        padding: '4px 8px',
-        borderRadius: '4px',
-        color: 'white',
-        fontSize: '14px',
-        fontFamily: 'Arial, sans-serif',
-        whiteSpace: 'nowrap',
-        pointerEvents: 'none'
-      }}>
-        {text}
-      </div>
+      <div className="floating-label">{text}</div>
     </Html>
   );
 };
 
 // Rotating Planet Component
 interface RotatingPlanetProps {
-  children: ReactNode;
+  children: React.ReactNode;
   rotationSpeed: number;
   revolutionSpeed: number;
   orbitDistance: number;
@@ -729,30 +507,7 @@ interface NavigationGuideProps {
 
 const NavigationGuide: React.FC<NavigationGuideProps> = ({ onClose }) => {
   return (
-    <div
-      className="fixed top-4 left-4 z-50"
-      style={{
-        position: "fixed",
-        top: "20px",
-        left: "20px",
-        zIndex: 1000,
-        background: "rgba(8, 12, 16, 0.95)",
-        backdropFilter: "blur(12px)",
-        border: "1px solid rgba(0, 247, 255, 0.8)",
-        boxShadow: `
-          0 0 20px rgba(0, 247, 255, 0.3),
-          0 0 40px rgba(0, 247, 255, 0.2),
-          0 0 60px rgba(0, 247, 255, 0.1),
-          inset 0 0 30px rgba(0, 247, 255, 0.05),
-          0 0 5px rgba(0, 247, 255, 1)
-        `,
-        borderRadius: "12px",
-        padding: "12px",
-        width: "240px",
-        color: "#e5e7eb",
-        animation: "fadeIn 0.5s ease-out"
-      }}
-    >
+    <div className="fixed-top-left">
       <button
         onClick={onClose}
         className="close-button"
@@ -788,79 +543,7 @@ const NavigationGuide: React.FC<NavigationGuideProps> = ({ onClose }) => {
       >
         ×
       </button>
-      <style>
-        {`
-          .close-button:hover {
-            text-shadow: 0 0 8px rgba(0, 247, 255, 0.8);
-          }
-          @keyframes fadeIn {
-            from {
-              opacity: 0;
-              transform: translateX(-20px);
-            }
-            to {
-              opacity: 1;
-              transform: translateX(0);
-            }
-          }
-
-          @keyframes neonPulse {
-            0% {
-              box-shadow: 
-                0 0 20px rgba(0, 247, 255, 0.3),
-                0 0 40px rgba(0, 247, 255, 0.2),
-                0 0 60px rgba(0, 247, 255, 0.1);
-              border-color: rgba(0, 247, 255, 0.6);
-            }
-            50% {
-              box-shadow: 
-                0 0 25px rgba(0, 247, 255, 0.4),
-                0 0 50px rgba(0, 247, 255, 0.3),
-                0 0 75px rgba(0, 247, 255, 0.2);
-              border-color: rgba(0, 247, 255, 0.8);
-            }
-            100% {
-              box-shadow: 
-                0 0 20px rgba(0, 247, 255, 0.3),
-                0 0 40px rgba(0, 247, 255, 0.2),
-                0 0 60px rgba(0, 247, 255, 0.1);
-              border-color: rgba(0, 247, 255, 0.6);
-            }
-          }
-
-          .nav-section {
-            animation: neonPulse 3s infinite;
-            background: rgba(0, 247, 255, 0.03) !important;
-            border: 1px solid rgba(0, 247, 255, 0.3) !important;
-            box-shadow: 
-              0 0 15px rgba(0, 247, 255, 0.2),
-              0 0 30px rgba(0, 247, 255, 0.1),
-              inset 0 0 20px rgba(0, 247, 255, 0.05);
-          }
-
-          .nav-item {
-            transition: all 0.2s ease;
-            border: 1px solid transparent;
-            padding: 4px 8px;
-            border-radius: 4px;
-            display: flex;
-            align-items: center;
-            gap: 8px;
-            font-size: 0.85rem;
-            cursor: pointer;
-          }
-
-          .nav-item:hover {
-            background: rgba(0, 247, 255, 0.08);
-            border: 1px solid rgba(0, 247, 255, 0.4);
-            transform: translateX(5px);
-            box-shadow: 
-              0 0 15px rgba(0, 247, 255, 0.2),
-              0 0 30px rgba(0, 247, 255, 0.1);
-          }
-        `}
-      </style>
-
+      {/* <style> blocks removed, now in style.css */}
       <div style={{
         borderBottom: "1px solid rgba(0, 247, 255, 0.2)",
         paddingBottom: "8px",
@@ -874,7 +557,6 @@ const NavigationGuide: React.FC<NavigationGuideProps> = ({ onClose }) => {
           textShadow: "0 0 10px rgba(0, 247, 255, 0.3)"
         }}>Navigation Points</h3>
       </div>
-
       <div className="nav-section">
         <div className="nav-item">
           <span style={{ color: "#00f7ff" }}>●</span>
@@ -906,17 +588,12 @@ const NavigationGuide: React.FC<NavigationGuideProps> = ({ onClose }) => {
 };
 
 // Home Component
-const Home: NextPage = () => {
+const Home = () => {
   const controlsRef = useRef<any>(null);
-  const [showIntro, setShowIntro] = useState(true);
   const [camera, setCamera] = useState<THREE.Camera | null>(null);
   const [showFlashMessage, setShowFlashMessage] = useState(false);
   const [showMercuryCard, setShowMercuryCard] = useState(false);
   const [showNavGuide, setShowNavGuide] = useState(true);
-
-  const handleNext = () => {
-    setShowIntro(false);
-  };
 
   return (
     <div

@@ -780,3 +780,143 @@ body {
   line-height: 1.5;
   margin-bottom: 8px;
 }
+
+/* === Moved from page.tsx === */
+
+.fixed-bottom-left {
+  position: fixed;
+  bottom: 20px;
+  left: 20px;
+  z-index: 1000;
+}
+.fixed-bottom-left-80 {
+  position: fixed;
+  bottom: 20px;
+  left: 80px;
+  z-index: 1000;
+}
+.fixed-bottom-16-left-20 {
+  position: fixed;
+  bottom: 16px;
+  left: 20px;
+  transform: scale(1);
+  transform-origin: bottom left;
+  transition: all 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+  max-width: 300px;
+  width: 90vw;
+  max-height: 60vh;
+  opacity: 1;
+  visibility: visible;
+  background: rgba(8, 12, 16, 0.95);
+  backdrop-filter: blur(12px);
+  border-radius: 12px;
+  border: 1px solid rgba(0, 247, 255, 0.8);
+  box-shadow: 0 0 20px rgba(0, 247, 255, 0.3), 0 0 40px rgba(0, 247, 255, 0.2), 0 0 60px rgba(0, 247, 255, 0.1), inset 0 0 30px rgba(0, 247, 255, 0.05), 0 0 5px rgba(0, 247, 255, 1);
+  padding: 16px;
+  overflow-y: auto;
+  overflow-x: hidden;
+  scrollbar-width: thin;
+  scrollbar-color: rgba(0, 247, 255, 0.3) rgba(8, 12, 16, 0.95);
+}
+.flex-center {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+.menu-section-style {
+  padding: 10px;
+  border-radius: 8px;
+  border: 1px solid rgba(0, 247, 255, 0.3);
+  animation: neonPulse 3s infinite, scrollText 0.5s ease forwards;
+  background: rgba(0, 247, 255, 0.03) !important;
+  box-shadow: 0 0 15px rgba(0, 247, 255, 0.2),
+              0 0 30px rgba(0, 247, 255, 0.1),
+              inset 0 0 20px rgba(0, 247, 255, 0.05);
+  margin-bottom: 18px;
+  opacity: 0;
+}
+.menu-section-style:nth-of-type(1) { animation-delay: 0.1s; }
+.menu-section-style:nth-of-type(2) { animation-delay: 0.2s; }
+.menu-section-style:nth-of-type(3) { animation-delay: 0.3s; }
+.menu-item-style {
+  padding: 8px;
+  border-radius: 6px;
+}
+.menu-item-style-sm {
+  padding: 4px 8px;
+  border-radius: 4px;
+}
+.info-menu-content-header {
+  border-bottom: 1px solid rgba(0, 247, 255, 0.2);
+  padding-bottom: 8px;
+  margin-bottom: 12px;
+}
+.info-menu-content-title {
+  color: #00f7ff;
+  font-size: 1.1rem;
+  font-weight: 600;
+  letter-spacing: 0.5px;
+  text-shadow: 0 0 10px rgba(0, 247, 255, 0.5);
+}
+.info-menu-content-pulse {
+  width: 0.5rem;
+  height: 0.5rem;
+  background: #00f7ff;
+  border-radius: 9999px;
+  margin-right: 0.5rem;
+  animation: pulse 2s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+}
+/* FloatingLabel styles */
+.floating-label {
+  background: rgba(0, 0, 0, 0.7);
+  padding: 4px 8px;
+  border-radius: 4px;
+  color: white;
+  font-size: 14px;
+  font-family: Arial, sans-serif;
+  white-space: nowrap;
+  pointer-events: none;
+}
+/* NavigationGuide styles */
+.fixed-top-left {
+  position: fixed;
+  top: 20px;
+  left: 20px;
+  z-index: 1000;
+  background: rgba(8, 12, 16, 0.95);
+  backdrop-filter: blur(12px);
+  border: 1px solid rgba(0, 247, 255, 0.8);
+  box-shadow: 0 0 20px rgba(0, 247, 255, 0.3), 0 0 40px rgba(0, 247, 255, 0.2), 0 0 60px rgba(0, 247, 255, 0.1), inset 0 0 30px rgba(0, 247, 255, 0.05), 0 0 5px rgba(0, 247, 255, 1);
+  border-radius: 12px;
+  padding: 12px;
+  width: 240px;
+  color: #e5e7eb;
+  animation: fadeIn 0.5s ease-out;
+}
+
+/* Added from removed <style> blocks in page.tsx */
+.nav-section {
+  animation: neonPulse 3s infinite;
+  background: rgba(0, 247, 255, 0.03) !important;
+  border: 1px solid rgba(0, 247, 255, 0.3) !important;
+  box-shadow: 0 0 15px rgba(0, 247, 255, 0.2), 0 0 30px rgba(0, 247, 255, 0.1), inset 0 0 20px rgba(0, 247, 255, 0.05);
+}
+
+.nav-item {
+  transition: all 0.2s ease;
+  border: 1px solid transparent;
+  padding: 4px 8px;
+  border-radius: 4px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.85rem;
+  cursor: pointer;
+}
+
+.nav-item:hover {
+  background: rgba(0, 247, 255, 0.08);
+  border: 1px solid rgba(0, 247, 255, 0.4);
+  transform: translateX(5px);
+  box-shadow: 0 0 15px rgba(0, 247, 255, 0.2), 0 0 30px rgba(0, 247, 255, 0.1);
+}
