@@ -726,7 +726,7 @@ const Home = () => {
 
           <div style={{ marginTop: "16px", padding: "12px", background: "rgba(0, 255, 170, 0.1)", borderRadius: "8px", border: "1px solid rgba(0, 255, 170, 0.2)" }}>
             <p style={{ color: "#00ffaa", fontSize: "0.95rem", margin: "0", fontWeight: "600" }}>
-              💡 Tip: Use the ⟳ button (bottom left) to reset your camera position anytime!
+              💡 Tip: Use the ! button (bottom left) to see the info about website!
             </p>
           </div>
         </div>
