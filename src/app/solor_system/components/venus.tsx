@@ -10,4 +10,4 @@ const Venus: React.FC = () => {
 // Preload the model
 useGLTF.preload("https://res.cloudinary.com/dm1yujy8h/image/upload/v1743075152/venus_xk1kof.glb");
 
-export default Venus
+export default Venus;
