@@ -811,7 +811,7 @@ const Home = () => {
           <RotatingPlanet rotationSpeed={1} revolutionSpeed={0.2} orbitDistance={25} planetName="Mars" Linkforopen="https://www.linkedin.com/in/anuj-dubey-dev/">
             <Mars />
           </RotatingPlanet>
-          <RotatingPlanet rotationSpeed={1} revolutionSpeed={0.1} orbitDistance={34} planetName="Jupiter" Linkforopen="https://drive.google.com/file/d/1Mp5xhZV5FxQJcivJUklKcNiNaDcc9Hox/view">
+          <RotatingPlanet rotationSpeed={1} revolutionSpeed={0.1} orbitDistance={34} planetName="Jupiter" Linkforopen="https://drive.google.com/file/d/1_wih6P07tn87BzcKl53o5uQ11Fw1tDWq/view">
             <Jupiter />
           </RotatingPlanet>
           <RotatingPlanet rotationSpeed={1} revolutionSpeed={0.08} orbitDistance={48} planetName="Saturn" Linkforopen="https://github.com/hellspit">
