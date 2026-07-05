@@ -35,7 +35,9 @@ const Sun: React.FC = () => {
     );
   };
 
-// Preload the model
-useGLTF.preload('https://res.cloudinary.com/dm1yujy8h/image/upload/v1743075171/sun_ho5pjo.glb');
+// Preload the model (browser only — three's loaders need ProgressEvent, which Node lacks)
+if (typeof window !== 'undefined') {
+  useGLTF.preload('https://res.cloudinary.com/dm1yujy8h/image/upload/v1743075171/sun_ho5pjo.glb');
+}
 
 export default Sun;

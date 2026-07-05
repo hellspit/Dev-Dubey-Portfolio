@@ -36,6 +36,7 @@ export interface RotatingPlanetProps {
   Linkforopen?: string;
   planetName: string;
   onClick?: () => void;
+  registerRef?: (group: THREE.Group | null) => void;
 }
 
 // Orbit props
@@ -48,6 +49,7 @@ export interface OrbitProps {
 // Rotating sun props
 export interface RotatingSunProps {
   rotationSpeed: number;
+  onClick?: () => void;
 }
 
 // Keyboard controls props
@@ -63,6 +65,7 @@ export interface ShootingStarProps {
 // Navigation guide props
 export interface NavigationGuideProps {
   onClose: () => void;
+  onNavigate?: (planetName: string) => void;
 }
 
 // Tutorial card interface

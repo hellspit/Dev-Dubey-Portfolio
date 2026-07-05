@@ -5,11 +5,15 @@ import { Stars, OrbitControls, Preload } from "@react-three/drei";
 import './style.css';
 import React, { useRef, useState } from "react";
 import dynamic from 'next/dynamic';
+import * as THREE from "three";
 
 // Import components
 import FlashMessage from './components/FlashMessage';
 import MercuryCard from './components/MercuryCard';
 import ProjectsCard from './components/ProjectsCard';
+import ExperienceCard from './components/ExperienceCard';
+import SkillsCard from './components/SkillsCard';
+import CameraFlyTo, { CameraFocus } from './components/CameraFlyTo';
 import TutorialFlashcard from './components/TutorialFlashcard';
 
 import RecenterButton from './components/RecenterButton';
@@ -62,7 +66,73 @@ const Home = () => {
   const [showFlashMessage, setShowFlashMessage] = useState(false);
   const [showMercuryCard, setShowMercuryCard] = useState(false);
   const [showProjectsCard, setShowProjectsCard] = useState(false);
+  const [showExperienceCard, setShowExperienceCard] = useState(false);
+  const [showSkillsCard, setShowSkillsCard] = useState(false);
   const [showNavGuide, setShowNavGuide] = useState(true);
+  const planetRefs = useRef<Record<string, THREE.Group | null>>({});
+  const [cameraFocus, setCameraFocus] = useState<CameraFocus | null>(null);
+
+  // Fly the camera to a planet, lock onto it, then run onArrive (e.g. open its card)
+  const flyToPlanet = (planetName: string, distance: number, onArrive: () => void) => {
+    setShowNavGuide(false);
+    setCameraFocus({
+      getTarget: () => {
+        const group = planetRefs.current[planetName];
+        return group ? group.getWorldPosition(new THREE.Vector3()) : null;
+      },
+      distance,
+      onArrive,
+    });
+  };
+
+  // Close a card and fly the camera back to its default position
+  const closeCard = (hideCard: () => void) => {
+    hideCard();
+    setCameraFocus(null);
+    setShowNavGuide(true);
+  };
+
+  const focusSun = () => {
+    setShowNavGuide(false);
+    setCameraFocus({
+      getTarget: () => new THREE.Vector3(0, 0, 0),
+      distance: 14,
+      onArrive: () => setShowSkillsCard(true),
+    });
+  };
+
+  // Navigation Points panel: fly to card planets, open links directly
+  const handleNavigate = (planetName: string) => {
+    switch (planetName) {
+      case 'Sun':
+        focusSun();
+        break;
+      case 'Mercury':
+        flyToPlanet('Mercury', 4, () => setShowMercuryCard(true));
+        break;
+      case 'Venus':
+        flyToPlanet('Venus', 4, () => setShowProjectsCard(true));
+        break;
+      case 'Earth':
+        flyToPlanet('Earth', 4, () => setShowFlashMessage(true));
+        break;
+      case 'Neptune':
+        flyToPlanet('Neptune', 5, () => setShowExperienceCard(true));
+        break;
+      case 'Mars':
+        window.open(PLANET_LINKS.MARS, '_blank');
+        break;
+      case 'Jupiter':
+        window.open(PLANET_LINKS.JUPITER, '_blank');
+        break;
+      case 'Saturn':
+        window.open(PLANET_LINKS.SATURN, '_blank');
+        break;
+      case 'Uranus':
+        window.open(PLANET_LINKS.URANUS, '_blank');
+        break;
+    }
+  };
   
   // Use custom tutorial hook
   const { showTutorial, tutorialStep, handleTutorialNext, handleTutorialSkip } = useTutorial();
@@ -93,13 +163,21 @@ const Home = () => {
 
       {/* Navigation Guide */}
       {!showTutorial && showNavGuide && (
-        <NavigationGuide onClose={() => setShowNavGuide(false)} />
+        <NavigationGuide
+          onClose={() => setShowNavGuide(false)}
+          onNavigate={handleNavigate}
+        />
       )}
 
       {/* 3D Canvas */}
       <Canvas camera={{ position: CAMERA_CONFIG.INITIAL_POSITION, fov: CAMERA_CONFIG.FOV }}>
         <OrbitControls ref={controlsRef} />
         <KeyboardControls controlsRef={controlsRef} />
+        <CameraFlyTo
+          focus={cameraFocus}
+          controlsRef={controlsRef}
+          homePosition={CAMERA_CONFIG.INITIAL_POSITION}
+        />
         
 
           <ambientLight intensity={2} />
@@ -108,7 +186,10 @@ const Home = () => {
           <ShootingStars />
 
           {/* Sun */}
-          <RotatingSun rotationSpeed={PLANET_CONFIG.SUN.rotationSpeed} />
+          <RotatingSun
+            rotationSpeed={PLANET_CONFIG.SUN.rotationSpeed}
+            onClick={focusSun}
+          />
 
           {/* Planets */}
           <RotatingPlanet 
@@ -116,11 +197,9 @@ const Home = () => {
             revolutionSpeed={PLANET_CONFIG.MERCURY.revolutionSpeed}
             orbitDistance={PLANET_CONFIG.MERCURY.orbitDistance}
             planetName="Mercury"
+            registerRef={(group) => { planetRefs.current['Mercury'] = group; }}
           >
-            <Mercury onClick={() => {
-              setShowMercuryCard(true);
-              setShowNavGuide(false);
-            }} />
+            <Mercury onClick={() => flyToPlanet('Mercury', 4, () => setShowMercuryCard(true))} />
           </RotatingPlanet>
 
           <RotatingPlanet 
@@ -128,11 +207,9 @@ const Home = () => {
             revolutionSpeed={PLANET_CONFIG.VENUS.revolutionSpeed}
             orbitDistance={PLANET_CONFIG.VENUS.orbitDistance}
             planetName="Venus"
+            registerRef={(group) => { planetRefs.current['Venus'] = group; }}
           >
-            <Venus onClick={() => {
-              setShowProjectsCard(true);
-              setShowNavGuide(false);
-            }} />
+            <Venus onClick={() => flyToPlanet('Venus', 4, () => setShowProjectsCard(true))} />
           </RotatingPlanet>
 
           <RotatingPlanet 
@@ -140,11 +217,9 @@ const Home = () => {
             revolutionSpeed={PLANET_CONFIG.EARTH.revolutionSpeed}
             orbitDistance={PLANET_CONFIG.EARTH.orbitDistance}
             planetName="Earth"
+            registerRef={(group) => { planetRefs.current['Earth'] = group; }}
           >
-            <Earth onClick={() => {
-              setShowFlashMessage(true);
-              setShowNavGuide(false);
-            }} />
+            <Earth onClick={() => flyToPlanet('Earth', 4, () => setShowFlashMessage(true))} />
           </RotatingPlanet>
 
           <RotatingPlanet 
@@ -194,8 +269,9 @@ const Home = () => {
             revolutionSpeed={PLANET_CONFIG.NEPTUNE.revolutionSpeed}
             orbitDistance={PLANET_CONFIG.NEPTUNE.orbitDistance}
             planetName="Neptune"
+            registerRef={(group) => { planetRefs.current['Neptune'] = group; }}
           >
-            <Neptune />
+            <Neptune onClick={() => flyToPlanet('Neptune', 5, () => setShowExperienceCard(true))} />
           </RotatingPlanet>
 
                   <Stars />
@@ -215,24 +291,23 @@ const Home = () => {
       
       {/* Modal Components */}
       {!showTutorial && showFlashMessage && (
-        <FlashMessage onClose={() => {
-          setShowFlashMessage(false);
-          setShowNavGuide(true);
-        }} />
+        <FlashMessage onClose={() => closeCard(() => setShowFlashMessage(false))} />
       )}
-      
+
       {!showTutorial && showMercuryCard && (
-        <MercuryCard onClose={() => {
-          setShowMercuryCard(false);
-          setShowNavGuide(true);
-        }} />
+        <MercuryCard onClose={() => closeCard(() => setShowMercuryCard(false))} />
       )}
 
       {!showTutorial && showProjectsCard && (
-        <ProjectsCard onClose={() => {
-          setShowProjectsCard(false);
-          setShowNavGuide(true);
-        }} />
+        <ProjectsCard onClose={() => closeCard(() => setShowProjectsCard(false))} />
+      )}
+
+      {!showTutorial && showExperienceCard && (
+        <ExperienceCard onClose={() => closeCard(() => setShowExperienceCard(false))} />
+      )}
+
+      {!showTutorial && showSkillsCard && (
+        <SkillsCard onClose={() => closeCard(() => setShowSkillsCard(false))} />
       )}
     </div>
   );

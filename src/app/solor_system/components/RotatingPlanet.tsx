@@ -13,6 +13,7 @@ const RotatingPlanet: React.FC<RotatingPlanetProps> = ({
   Linkforopen,
   planetName,
   onClick,
+  registerRef,
 }) => {
   const [hovered, setHovered] = useState(false);
   const revolutionRef = useRef<THREE.Group>(null);
@@ -38,7 +39,13 @@ const RotatingPlanet: React.FC<RotatingPlanetProps> = ({
   return (
     <group ref={revolutionRef}>
       <Orbit radius={orbitDistance} />
-      <group ref={rotationRef} position={[orbitDistance, 0, 0]}>
+      <group
+        ref={(group: THREE.Group | null) => {
+          rotationRef.current = group;
+          registerRef?.(group);
+        }}
+        position={[orbitDistance, 0, 0]}
+      >
         <mesh 
           ref={meshRef}
           onPointerOver={() => setHovered(true)} 

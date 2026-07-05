@@ -1,14 +1,27 @@
-import React, { Suspense } from "react";
+import React from "react";
 import { useGLTF } from "@react-three/drei";
-import * as THREE from "three";
 
-const Neptune: React.FC = () => {
+interface NeptuneProps {
+  onClick?: () => void;
+}
+
+const Neptune: React.FC<NeptuneProps> = ({ onClick }) => {
   const gltf = useGLTF("https://res.cloudinary.com/dm1yujy8h/image/upload/v1743075182/neptune_echzi0.glb", true);
+
+  const handleClick = (event: any) => {
+    event.stopPropagation();
+    if (onClick) {
+      onClick();
+    }
+  };
+
   return (
-    <primitive
-      object={gltf.scene}
-      scale={[0.18, 0.18, 0.18]}
-    />
+    <mesh onClick={handleClick} userData={{ clickable: true }}>
+      <primitive
+        object={gltf.scene}
+        scale={[0.18, 0.18, 0.18]}
+      />
+    </mesh>
   );
 };
 

@@ -39,6 +39,13 @@ export const TUTORIAL_CARDS: TutorialCard[] = [
           Each planet represents a key aspect of my professional profile. Click on any planet to explore:
         </p>
         <div style={{ display: "grid", gap: "8px" }}>
+          <div style={{ display: "flex", alignItems: "center", gap: "12px", padding: "8px", borderRadius: "6px", background: "rgba(255, 221, 68, 0.05)" }}>
+            <span style={{ color: "#ffdd44", fontSize: "1.2rem" }}>☀️</span>
+            <div>
+              <span style={{ color: "#ffdd44", fontWeight: "600" }}>Sun</span>
+              <span style={{ color: "#e5e7eb", fontSize: "0.9rem", display: "block" }}>Skills Constellation</span>
+            </div>
+          </div>
           <div style={{ display: "flex", alignItems: "center", gap: "12px", padding: "8px", borderRadius: "6px", background: "rgba(0, 247, 255, 0.05)" }}>
             <span style={{ color: "#00f7ff", fontSize: "1.2rem" }}>⚫</span>
             <div>
@@ -86,6 +93,13 @@ export const TUTORIAL_CARDS: TutorialCard[] = [
             <div>
               <span style={{ color: "#00ffaa", fontWeight: "600" }}>Uranus</span>
               <span style={{ color: "#e5e7eb", fontSize: "0.9rem", display: "block" }}>Contact Information & Email</span>
+            </div>
+          </div>
+          <div style={{ display: "flex", alignItems: "center", gap: "12px", padding: "8px", borderRadius: "6px", background: "rgba(68, 119, 255, 0.05)" }}>
+            <span style={{ color: "#4477ff", fontSize: "1.2rem" }}>🔷</span>
+            <div>
+              <span style={{ color: "#4477ff", fontWeight: "600" }}>Neptune</span>
+              <span style={{ color: "#e5e7eb", fontSize: "0.9rem", display: "block" }}>Work Experience & Roles</span>
             </div>
           </div>
         </div>

@@ -1,7 +1,19 @@
 import React from 'react';
 import { NavigationGuideProps } from '../types';
 
-const NavigationGuide: React.FC<NavigationGuideProps> = ({ onClose }) => {
+const NAV_ITEMS: { name: string; label: string; color: string }[] = [
+  { name: 'Sun', label: 'Sun - Skills', color: '#ffdd44' },
+  { name: 'Mercury', label: 'Mercury - Certificates', color: '#00f7ff' },
+  { name: 'Venus', label: 'Venus - Projects', color: '#ffcc66' },
+  { name: 'Earth', label: 'Earth - Personal info', color: '#00aaff' },
+  { name: 'Mars', label: 'Mars - LinkedIn', color: '#ff4444' },
+  { name: 'Jupiter', label: 'Jupiter - Resume', color: '#ffaa00' },
+  { name: 'Saturn', label: 'Saturn - GitHub', color: '#ff8800' },
+  { name: 'Uranus', label: 'Uranus - Contact', color: '#00ffaa' },
+  { name: 'Neptune', label: 'Neptune - Experience', color: '#4477ff' },
+];
+
+const NavigationGuide: React.FC<NavigationGuideProps> = ({ onClose, onNavigate }) => {
   return (
     <div className="fixed-top-left">
       <button
@@ -53,34 +65,30 @@ const NavigationGuide: React.FC<NavigationGuideProps> = ({ onClose }) => {
         }}>Navigation Points</h3>
       </div>
       <div className="nav-section">
-        <div className="nav-item">
-          <span style={{ color: "#00f7ff" }}>●</span>
-          <span>Mercury - Certificates</span>
-        </div>
-        <div className="nav-item">
-          <span style={{ color: "#ffcc66" }}>●</span>
-          <span>Venus - Projects</span>
-        </div>
-        <div className="nav-item">
-          <span style={{ color: "#00aaff" }}>●</span>
-          <span>Earth - Personal info</span>
-        </div>
-        <div className="nav-item">
-          <span style={{ color: "#ff4444" }}>●</span>
-          <span>Mars - LinkedIn</span>
-        </div>
-        <div className="nav-item">
-          <span style={{ color: "#ffaa00" }}>●</span>
-          <span>Jupiter - Resume</span>
-        </div>
-        <div className="nav-item">
-          <span style={{ color: "#ff8800" }}>●</span>
-          <span>Saturn - GitHub</span>
-        </div>
-        <div className="nav-item">
-          <span style={{ color: "#00ffaa" }}>●</span>
-          <span>Uranus - Contact</span>
-        </div>
+        {NAV_ITEMS.map((item) => (
+          <div
+            key={item.name}
+            className="nav-item"
+            onClick={() => onNavigate?.(item.name)}
+            style={{
+              cursor: onNavigate ? 'pointer' : 'default',
+              borderRadius: '6px',
+              padding: '3px 6px',
+              transition: 'all 0.2s ease',
+            }}
+            onMouseOver={(e) => {
+              e.currentTarget.style.background = 'rgba(0, 247, 255, 0.12)';
+              e.currentTarget.style.transform = 'translateX(4px)';
+            }}
+            onMouseOut={(e) => {
+              e.currentTarget.style.background = 'transparent';
+              e.currentTarget.style.transform = 'translateX(0)';
+            }}
+          >
+            <span style={{ color: item.color }}>●</span>
+            <span>{item.label}</span>
+          </div>
+        ))}
       </div>
     </div>
   );
