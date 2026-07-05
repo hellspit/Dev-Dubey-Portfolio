@@ -9,6 +9,7 @@ import dynamic from 'next/dynamic';
 // Import components
 import FlashMessage from './components/FlashMessage';
 import MercuryCard from './components/MercuryCard';
+import ProjectsCard from './components/ProjectsCard';
 import TutorialFlashcard from './components/TutorialFlashcard';
 
 import RecenterButton from './components/RecenterButton';
@@ -60,6 +61,7 @@ const Home = () => {
   const controlsRef = useRef<any>(null);
   const [showFlashMessage, setShowFlashMessage] = useState(false);
   const [showMercuryCard, setShowMercuryCard] = useState(false);
+  const [showProjectsCard, setShowProjectsCard] = useState(false);
   const [showNavGuide, setShowNavGuide] = useState(true);
   
   // Use custom tutorial hook
@@ -127,7 +129,10 @@ const Home = () => {
             orbitDistance={PLANET_CONFIG.VENUS.orbitDistance}
             planetName="Venus"
           >
-            <Venus />
+            <Venus onClick={() => {
+              setShowProjectsCard(true);
+              setShowNavGuide(false);
+            }} />
           </RotatingPlanet>
 
           <RotatingPlanet 
@@ -219,6 +224,13 @@ const Home = () => {
       {!showTutorial && showMercuryCard && (
         <MercuryCard onClose={() => {
           setShowMercuryCard(false);
+          setShowNavGuide(true);
+        }} />
+      )}
+
+      {!showTutorial && showProjectsCard && (
+        <ProjectsCard onClose={() => {
+          setShowProjectsCard(false);
           setShowNavGuide(true);
         }} />
       )}

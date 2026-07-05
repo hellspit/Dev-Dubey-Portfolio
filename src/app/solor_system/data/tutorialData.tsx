@@ -46,6 +46,13 @@ export const TUTORIAL_CARDS: TutorialCard[] = [
               <span style={{ color: "#e5e7eb", fontSize: "0.9rem", display: "block" }}>Certificates & Achievements</span>
             </div>
           </div>
+          <div style={{ display: "flex", alignItems: "center", gap: "12px", padding: "8px", borderRadius: "6px", background: "rgba(255, 204, 102, 0.05)" }}>
+            <span style={{ color: "#ffcc66", fontSize: "1.2rem" }}>🟡</span>
+            <div>
+              <span style={{ color: "#ffcc66", fontWeight: "600" }}>Venus</span>
+              <span style={{ color: "#e5e7eb", fontSize: "0.9rem", display: "block" }}>Projects & Technical Work</span>
+            </div>
+          </div>
           <div style={{ display: "flex", alignItems: "center", gap: "12px", padding: "8px", borderRadius: "6px", background: "rgba(0, 170, 255, 0.05)" }}>
             <span style={{ color: "#00aaff", fontSize: "1.2rem" }}>🌍</span>
             <div>

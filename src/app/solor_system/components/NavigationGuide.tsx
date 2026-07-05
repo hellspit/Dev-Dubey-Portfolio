@@ -58,6 +58,10 @@ const NavigationGuide: React.FC<NavigationGuideProps> = ({ onClose }) => {
           <span>Mercury - Certificates</span>
         </div>
         <div className="nav-item">
+          <span style={{ color: "#ffcc66" }}>●</span>
+          <span>Venus - Projects</span>
+        </div>
+        <div className="nav-item">
           <span style={{ color: "#00aaff" }}>●</span>
           <span>Earth - Personal info</span>
         </div>
