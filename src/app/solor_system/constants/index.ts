@@ -16,7 +16,7 @@ export const PLANET_CONFIG = {
 // Planet links
 export const PLANET_LINKS = {
   MARS: "https://www.linkedin.com/in/anuj-dubey-dev/",
-  JUPITER: "https://drive.google.com/file/d/1_wih6P07tn87BzcKl53o5uQ11Fw1tDWq/view",
+  JUPITER: "https://drive.google.com/file/d/1JRQiddqzjRZDHLs3Evo6_FX2kYAJ5Y95/view?usp=sharing",
   SATURN: "https://github.com/hellspit",
   URANUS: "mailto:anuj.dubey.dev@gmail.com"
 };
